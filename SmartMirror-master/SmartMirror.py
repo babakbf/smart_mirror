@@ -39,8 +39,9 @@ class GUI(Frame):
         Frame.__init__(self, master)
 
         self.largeFont = tkinter.font.Font(family="Piboto", size=70)
-        self.mediumFont = tkinter.font.Font(family="Piboto", size=40)
+        self.mediumFont = tkinter.font.Font(family="Calibri", size=40)
         self.normalFont = tkinter.font.Font(family="Piboto Light", size=20)
+        self.enNewsFont = tkinter.font.Font(family="Calibri Light", size=20)
 
     def setupGUI(self):
         self.grid(row=0, column=0)
@@ -105,28 +106,28 @@ class GUI(Frame):
 
         # Labels to hold news info
         news_frame = Frame(self, width=400, height=500, bg='black')
-        news_frame.grid(row=6, column=0, sticky=W)
+        news_frame.grid(row=6, column=2, sticky=W)
 
-        GUI.news_today = Label(news_frame, text="\nToday's headlines:", fg='white', bg='black',
-                               font=persianFont, justify=RIGHT)
-        GUI.news_today.grid(row=0, column=0, sticky=W)
+        GUI.news_today = Label(news_frame, text="\nIran's headlines:", fg='white', bg='black',
+                               font=self.mediumFont, justify=RIGHT)
+        GUI.news_today.grid(row=0, column=0, sticky=E)
 
         GUI.news_label1 = Label(news_frame, text="Loading headlines...", fg='white', bg='black',
-                                font=persianFont, justify=LEFT)
-        GUI.news_label1.grid(row=1, column=0, sticky=W)
+                                font=persianFont, justify=RIGHT)
+        GUI.news_label1.grid(row=1, column=0, sticky=E)
 
         GUI.news_label2 = Label(news_frame, text="Loading headlines...", fg='white', bg='black',
                                 font=persianFont, justify=RIGHT)
-        GUI.news_label2.grid(row=2, column=0, sticky=W)
+        GUI.news_label2.grid(row=2, column=0, sticky=E)
         GUI.news_label3 = Label(news_frame, text="Loading headlines...", fg='white', bg='black',
                                 font=persianFont, justify=RIGHT)
-        GUI.news_label3.grid(row=3, column=0, sticky=W)
+        GUI.news_label3.grid(row=3, column=0, sticky=E)
         GUI.news_label4 = Label(news_frame, text="Loading headlines 4...", fg='white', bg='black',
                                 font=persianFont, justify=RIGHT)
-        GUI.news_label4.grid(row=4, column=0, sticky=W)
+        GUI.news_label4.grid(row=4, column=0, sticky=E)
         GUI.news_label5= Label(news_frame, text="Loading headlines...", fg='white', bg='black',
                                 font=persianFont, justify=RIGHT)
-        GUI.news_label5.grid(row=5, column=0, sticky=W)
+        GUI.news_label5.grid(row=5, column=0, sticky=E)
 
         # Adjust this width for spacing
         frame_placeholder = Frame(self, width=WIDTH/2.65, height=10, bg='black')
@@ -153,48 +154,48 @@ class GUI(Frame):
 
         # Frame for calendar info
         calendar_frame = Frame(self, width=400, height=500, bg='black')
-        calendar_frame.grid(row=1, column=2, sticky=NE)
+        calendar_frame.grid(row=1, column=2, sticky=NW)
         GUI.calendar_label0 = Label(calendar_frame, text='\nUpcoming events:', fg='white', bg='black',
                                     font=self.mediumFont)
-        GUI.calendar_label0.grid(row=0, column=0, sticky=NE)
+        GUI.calendar_label0.grid(row=0, column=0, sticky=NW)
         GUI.calendar_label1 = Label(calendar_frame, text='Loading calendar events...', fg='white', bg='black',
                                     font=self.normalFont)
-        GUI.calendar_label1.grid(row=1, column=0, sticky=NE)
+        GUI.calendar_label1.grid(row=1, column=0, sticky=NW)
         GUI.calendar_label2 = Label(calendar_frame, text='Loading calendar events...', fg='white', bg='black',
                                     font=self.normalFont)
-        GUI.calendar_label2.grid(row=2, column=0, sticky=NE)
+        GUI.calendar_label2.grid(row=2, column=0, sticky=NW)
         GUI.calendar_label3 = Label(calendar_frame, text='Loading calendar events...', fg='white', bg='black',
                                     font=self.normalFont)
-        GUI.calendar_label3.grid(row=3, column=0, sticky=NE)
+        GUI.calendar_label3.grid(row=3, column=0, sticky=NW)
         GUI.calendar_label4 = Label(calendar_frame, text='Loading calendar events...', fg='white', bg='black',
                                     font=self.normalFont)
-        GUI.calendar_label4.grid(row=4, column=0, sticky=NE)
+        GUI.calendar_label4.grid(row=4, column=0, sticky=NW)
         GUI.calendar_label5 = Label(calendar_frame, text='Loading calendar events...', fg='white', bg='black',
                                     font=self.normalFont)
-        GUI.calendar_label5.grid(row=5, column=0, sticky=NE)
+        GUI.calendar_label5.grid(row=5, column=0, sticky=NW)
         
         # Labels to hold US/CANADA news info
         news_en_frame= Frame(self, width=400, height=500, bg='black')
-        news_en_frame.grid(row=6, column=2, sticky=W)
+        news_en_frame.grid(row=6, column=0, sticky=W)
 
-        GUI.news_en_today = Label(news_en_frame, text="\nCanada & US's headlines:", fg='white', bg='black',
-                               font=persianFont, justify=RIGHT)
+        GUI.news_en_today = Label(news_en_frame, text="\nWorld's headlines:", fg='white', bg='black',
+                               font=self.mediumFont, justify=LEFT)
         GUI.news_en_today.grid(row=0, column=0, sticky=W)
         GUI.news_en_label1 = Label(news_en_frame, text="Loading headlines...", fg='white', bg='black',
-                        font=persianFont, justify=LEFT)
+                        font=self.enNewsFont, justify=LEFT)
         GUI.news_en_label1.grid(row=1, column=0, sticky=W)
         
         GUI.news_en_label2 = Label(news_en_frame, text="Loading headlines...", fg='white', bg='black',
-                        font=persianFont, justify=RIGHT)
+                        font=self.enNewsFont, justify=LEFT)
         GUI.news_en_label2.grid(row=2, column=0, sticky=W)
         GUI.news_en_label3 = Label(news_en_frame, text="Loading headlines...", fg='white', bg='black',
-                        font=persianFont, justify=RIGHT)
+                        font=self.enNewsFont, justify=LEFT)
         GUI.news_en_label3.grid(row=3, column=0, sticky=W)
         GUI.news_en_label4 = Label(news_en_frame, text="Loading headlines...", fg='white', bg='black',
-                        font=persianFont, justify=RIGHT)
+                        font=self.enNewsFont, justify=LEFT)
         GUI.news_en_label4.grid(row=4, column=0, sticky=W)
         GUI.news_en_label5= Label(news_en_frame, text="Loading headlines...", fg='white', bg='black',
-                        font=persianFont, justify=RIGHT)
+                        font=self.enNewsFont, justify=LEFT)
         GUI.news_en_label5.grid(row=5, column=0, sticky=W)
 
         self.configure(background='black')
@@ -226,8 +227,8 @@ class GUI(Frame):
             for day in orange.daily:
                 day = dict(day=date.strftime(weekday, '%a'),
                            sum=day.summary,
-                           tempMin=day.temperatureMin,
-                           tempMax=day.temperatureMax,
+                           tempMin=(day.temperatureMin-32)*5/9,
+                           tempMax=(day.temperatureMax-32)*5/9,
                            icon=day.icon
                            )
                 # Save each of these in a list to display to GUI
@@ -309,11 +310,11 @@ class GUI(Frame):
             
             title_new_list.append(title_new)       
         
-        GUI.news_label1.configure(text='-'+title_new_list[0])
-        GUI.news_label2.configure(text='-'+title_new_list[1])
-        GUI.news_label3.configure(text='-'+title_new_list[2])
-        GUI.news_label4.configure(text='-'+title_new_list[3])
-        GUI.news_label5.configure(text='-'+title_new_list[4])
+        GUI.news_label1.configure(text=title_new_list[0]+' -')
+        GUI.news_label2.configure(text=title_new_list[1]+' -')
+        GUI.news_label3.configure(text=title_new_list[2]+' -')
+        GUI.news_label4.configure(text=title_new_list[3]+' -')
+        GUI.news_label5.configure(text=title_new_list[4]+' -')
 
         window.after(50000000, mirror.updateNews)
 
@@ -328,8 +329,8 @@ class GUI(Frame):
         for i in range(0, j):
             title = dict_CANUS['entries'][i]["title"]
             title_new = title
-            #if(len(title) >= 50):
-            #    title_new += title[:50] + '-\n' + title[50:]
+            if(len(title) >= 50):
+                title_new = title[:50] + '-\n' + title[50:]
             
             title_new_list.append(title_new)       
         
