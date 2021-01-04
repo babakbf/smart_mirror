@@ -15,12 +15,13 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import feedparser
+import requests, json 
 WIDTH = 800
 HEIGHT = 600
 
 # Weather API credentials
 key = '93a522f375502ea4e4a091c06d034ff1'
-ORANGE = 33.779638, (-117.853700)
+ORANGE = 45.415907100000005, (-73.48298489999999)
 
 # News API credentials
 apikey = '455e01c84ca44ff387187f10f202bed3'
@@ -50,10 +51,39 @@ class GUI(Frame):
         # For weather, column 0 = info, column 1 = icon
         today_weather_frame = Frame(self, width=400, height=500, bg='black')
         today_weather_frame.grid(row=0, column=0, sticky=W)
+        GUI.weather_label0 = Label(today_weather_frame, text="Loading weather...", fg='white', bg='black',
+                                   font=self.mediumFont, justify=LEFT)
+        GUI.weather_label0.grid(row=0, column=1, sticky=NW)
+        
         GUI.weather_label1 = Label(today_weather_frame, text="Loading weather...", fg='white', bg='black',
                                    font=self.mediumFont, justify=LEFT)
         GUI.weather_label1.grid(row=0, column=0, sticky=NW)
+        
+        GUI.weather_label_feels = Label(today_weather_frame, text="Feels Like...", fg='white', bg='black',
+                                   font=self.normalFont, justify=LEFT)
+        GUI.weather_label_feels.grid(row=1, column=0, sticky=NW)
+        
+        GUI.weather_label_humidity = Label(today_weather_frame, text="Humidity...", fg='white', bg='black',
+                                   font=self.normalFont, justify=LEFT)
+        GUI.weather_label_humidity.grid(row=1, column=1, sticky=NW)
+        
+        GUI.weather_label_wind = Label(today_weather_frame, text="Wind...", fg='white', bg='black',
+                                   font=self.normalFont, justify=LEFT)
+        GUI.weather_label_wind.grid(row=2, column=0, sticky=NW)
 
+        GUI.weather_label_pressure = Label(today_weather_frame, text="Pressure...", fg='white', bg='black',
+                                   font=self.normalFont, justify=LEFT)
+        GUI.weather_label_pressure.grid(row=2, column=1, sticky=NW)        
+
+        GUI.weather_label_sunrise = Label(today_weather_frame, text="Sunrise...", fg='white', bg='black',
+                                   font=self.normalFont, justify=LEFT)
+        GUI.weather_label_sunrise.grid(row=3, column=0, sticky=NW)
+
+        GUI.weather_label_sunset = Label(today_weather_frame, text="Sunset...", fg='white', bg='black',
+                                   font=self.normalFont, justify=LEFT)
+        GUI.weather_label_sunset.grid(row=3, column=1, sticky=NW)      
+        
+        
         # Frame and labels to hold the forecast
         weather_news_frame = Frame(self, width=200, height=500, bg='black')
         weather_news_frame.grid(row=1, column=0, sticky=W)
@@ -210,7 +240,58 @@ class GUI(Frame):
         GUI.date_label.configure(text=strftime("%A, %B %d", time.localtime()))
 
         window.after(1000, mirror.updateGUI)
-
+    def updateWeatherDetails(self):
+        weather_utl='http://api.openweathermap.org/data/2.5/weather?zip=J5R,ca&appid=c9cdea1f63b108c6311423e7fe4686a9&units=metric'
+        response = requests.get(weather_utl) 
+        x = response.json()
+        if x["cod"] != "404": 
+      
+            # store the value of "main" 
+            # key in variable y 
+            y = x["main"] 
+            
+            current_city=x["name"]
+            # store the value corresponding 
+            # to the "temp" key of y 
+            current_temperature = y["temp"] 
+          
+            # store the value corresponding 
+            # to the "pressure" key of y 
+            current_pressure = y["pressure"] 
+          
+            # store the value corresponding 
+            # to the "humidity" key of y 
+            current_humidiy = y["humidity"] 
+          
+            # store the value of "weather" 
+            # key in variable z 
+            z = x["weather"] 
+          
+            # store the value corresponding  
+            # to the "description" key at  
+            # the 0th index of z 
+            weather_description = z[0]["description"] 
+            wind=x["wind"]
+            wind_speed=round(wind["speed"]*3.6)
+            
+            a = x["visibility"]/1000
+            
+            print(" Temperature (in Celsius unit): " +
+                                str(round(current_temperature)) + 
+                      "\n Atmospheric pressure (in hPa unit):" +
+                                str(current_pressure) +
+                      "\n Humidity: " +
+                                str(current_humidiy) + "%"
+                      "\n Description: " +
+                                str(weather_description)) 
+            print(" Visibility:"+str(round(a,2))+" KM")
+        else: 
+            print(" City Not Found ")     
+        GUI.weather_label_wind.configure(text='Wind Speed: '+ str(wind_speed) + " KM/H")
+        GUI.weather_label1.configure(text='Today in '+current_city+": "+ str(round(current_temperature)) + "| ")
+        GUI.weather_label_humidity.configure(text='Humidity: '+ str(round(current_humidiy)) + " %")
+        window.after(50000000, mirror.updateWeatherDetails)
+        
     def updateWeather(self):
         # Updates the weather information
         weekday = date.today()
@@ -227,13 +308,13 @@ class GUI(Frame):
             for day in orange.daily:
                 day = dict(day=date.strftime(weekday, '%a'),
                            sum=day.summary,
-                           tempMin=(day.temperatureMin-32)*5/9,
-                           tempMax=(day.temperatureMax-32)*5/9,
+                           tempMin=round((day.temperatureMin-32)*5/9),
+                           tempMax=round((day.temperatureMax-32)*5/9),
                            icon=day.icon
                            )
                 # Save each of these in a list to display to GUI
                 if counter == 0:
-                    weather_today += ('Today: High {tempMax} | Low {tempMin}'.format(**day))
+                    weather_today += ('High {tempMax} | Low {tempMin}'.format(**day))
                     today_icon = ('{icon}'.format(**day))
                     weekday += timedelta(days=1)
                     counter += 1
@@ -243,7 +324,7 @@ class GUI(Frame):
                     weekday += timedelta(days=1)
                     counter += 1
 
-        GUI.weather_label1.configure(text=weather_today)
+        GUI.weather_label0.configure(text=weather_today)
 
         # Set icon for weather today
         icon_path = 'weather_icons/'
@@ -423,6 +504,7 @@ window.bind("<Escape>", close_escape)
 mirror = GUI(window)
 mirror.setupGUI()
 window.after(1000, mirror.updateGUI)
+window.after(1000, mirror.updateWeatherDetails)
 window.after(1000, mirror.updateWeather)
 window.after(1000, mirror.updateNews())
 window.after(1000, mirror.updateNews_en())

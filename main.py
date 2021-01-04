@@ -13,9 +13,7 @@ dict_america = feedparser.parse(url_america)
 
 
 
-tz = pytz.timezone('Asia/Tehran')
-berlin_now = datetime.now(tz)
-print(berlin_now)
+
 def getTopNews():
     i=0
     print(">"*100)
@@ -29,6 +27,7 @@ def getTopNews():
         j=j+1
     print("-"*20)
     weather_utl='http://api.openweathermap.org/data/2.5/weather?id=524901&appid=c9cdea1f63b108c6311423e7fe4686a9&q=montreal'
+    weather_utl2='http://api.openweathermap.org/data/2.5/forecast/daily?q=Montreal&cnt=10&appid=c9cdea1f63b108c6311423e7fe4686a9'
     # while True:
     #     from datetime import datetime
     #     now = datetime.now()  
