@@ -310,7 +310,7 @@ class GUI(Frame):
         GUI.weather_label_visibility.configure(text='Visibility: '+ str(current_visibility)+ " KM")
         GUI.weather_label_cloudiness.configure(text='Cloudiness: '+ str(cloudiness) + " %")
         #GUI.weather_label_feels.configure(text='Feels Like: '+ str(current_pressure) + " hPa")
-        window.after(50000000, mirror.updateWeatherDetails)
+        window.after(600000, mirror.updateWeatherDetails)
         
     def updateWeather(self):
         # Updates the weather information
@@ -393,7 +393,7 @@ class GUI(Frame):
                 GUI.icon_label8.configure(image=temp_icon)
                 GUI.icon_label8.photo = temp_icon
 
-        window.after(50000000, mirror.updateWeather)
+        window.after(600000, mirror.updateWeather)
 
     def updateNews(self):
         dict_iran = feedparser.parse(url_radiofarda)
@@ -417,7 +417,7 @@ class GUI(Frame):
         GUI.news_label4.configure(text=title_new_list[3]+' -')
         GUI.news_label5.configure(text=title_new_list[4]+' -')
 
-        window.after(50000000, mirror.updateNews)
+        window.after(600000, mirror.updateNews)
 
     def updateNews_en(self):
         dict_CANUS = feedparser.parse(url_america)
@@ -430,8 +430,8 @@ class GUI(Frame):
         for i in range(0, j):
             title = dict_CANUS['entries'][i]["title"]
             title_new = title
-            if(len(title) >= 50):
-                title_new = title[:50] + '-\n' + title[50:]
+            #if(len(title) >= 50):
+            #    title_new = title[:50] + '-\n' + title[50:]
             
             title_new_list.append(title_new)       
         
@@ -441,7 +441,7 @@ class GUI(Frame):
         GUI.news_en_label4.configure(text='-'+title_new_list[3])
         GUI.news_en_label5.configure(text='-'+title_new_list[4])
 
-        window.after(50000000, mirror.updateNews_en)
+        window.after(600000, mirror.updateNews_en)
         
     def updateCalendar(self):
         creds = None
@@ -500,7 +500,7 @@ class GUI(Frame):
         if event_delta==5:
             GUI.calendar_label1.configure(text="No upcoming events!")    
             
-        window.after(500000000, mirror.updateCalendar)
+        window.after(600000, mirror.updateCalendar)
 
 def close_escape(event=None):
     print('Smart mirror closed')
@@ -526,7 +526,7 @@ mirror.setupGUI()
 window.after(1000, mirror.updateGUI)
 window.after(1000, mirror.updateWeatherDetails)
 window.after(1000, mirror.updateWeather)
-window.after(1000, mirror.updateNews())
-window.after(1000, mirror.updateNews_en())
-window.after(1000, mirror.updateCalendar())
+window.after(1000, mirror.updateNews)
+window.after(1000, mirror.updateNews_en)
+window.after(1000, mirror.updateCalendar)
 window.mainloop()
