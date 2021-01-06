@@ -150,7 +150,7 @@ class GUI(Frame):
 
         # Labels to hold news info
         news_frame = Frame(self, width=400, height=500, bg='black')
-        news_frame.grid(row=6, column=2, sticky=W)
+        news_frame.grid(row=6, column=1, sticky=W)
 
         GUI.news_today = Label(news_frame, text="\nIran's headlines:", fg='white', bg='black',
                                font=self.mediumFont, justify=RIGHT)
@@ -181,7 +181,7 @@ class GUI(Frame):
         tz = pytz.timezone('Asia/Tehran')
         tehran_now = datetime.datetime.now(tz)
         time_frame = Frame(self, width=400, height=500, bg='black')
-        time_frame.grid(row=0, column=2, sticky=NE)
+        time_frame.grid(row=0, column=1, sticky=NE)
         GUI.time_label = Label(time_frame, text=strftime("%I:%M %p", time.localtime()), fg='white', bg='black',
                                font=self.largeFont)
         GUI.time_label.grid(row=0, column=0, sticky=NE)
@@ -198,7 +198,7 @@ class GUI(Frame):
 
         # Frame for calendar info
         calendar_frame = Frame(self, width=400, height=500, bg='black')
-        calendar_frame.grid(row=1, column=2, sticky=NW)
+        calendar_frame.grid(row=1, column=1, sticky=NW)
         GUI.calendar_label0 = Label(calendar_frame, text='\nUpcoming events:', fg='white', bg='black',
                                     font=self.mediumFont)
         GUI.calendar_label0.grid(row=0, column=0, sticky=NW)
