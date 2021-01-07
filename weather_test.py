@@ -147,7 +147,6 @@ class GUI(Frame):
 
 
 
-
         # Adjust this width for spacing
         frame_placeholder = Frame(self, width=WIDTH/2.65, height=10, bg='black')
         frame_placeholder.grid(row=0, column=1)
