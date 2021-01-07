@@ -122,11 +122,11 @@ class GUI(Frame):
         GUI.weather_label8.grid(row=7, column=0, sticky=W)
         
         
-        icon = PhotoImage(file="SmartMirror-master/weather_icons/partly-cloudy-day.gif")
+        icon = PhotoImage(file="weather_icons/02d.png")
         icon = icon.subsample(10)
 
         # Set up labels to hold weather icons
-        GUI.icon_label = Label(today_weather_frame, borderwidth=0, image=icon)
+        GUI.icon_label = Label(today_weather_frame, borderwidth=0, image=icon ,background='black')
         GUI.icon_label.photo = icon
         GUI.icon_label.grid(row=0, column=1, sticky=W)
         GUI.icon_label2 = Label(weather_news_frame, borderwidth=0, image=icon)
@@ -163,68 +163,91 @@ class GUI(Frame):
         
         
     def updateWeatherDetails(self):
-        response = requests.get(rweather_api_url) 
+        response = requests.get(weather_api_url) 
         dict_weather = response.json()
-        if "cod" not in dict_weather:
+        if "current" in dict_weather:
             cur_weather=dict_weather["current"]
             cur_feels=cur_weather["feels_like"]
-            print(cur_feels)
-        else:
-            print("Buy")
-        weather_url='http://api.openweathermap.org/data/2.5/weather?zip={zipcode},{countrycode}&appid={appkey}&units={units}'.format(zipcode=zipcode, countrycode=countrycode, units=units, appkey=openweathermap_appkey)
-        response = requests.get(weather_url) 
-        dict_base = response.json()
-        if dict_base["cod"] != "404": 
-      
-            # store the value of "main" 
-            dict_main = dict_base["main"] 
-            wind=dict_base["wind"]
-            wind_speed=round(wind["speed"]*3.6)
-            current_visibility = round(dict_base["visibility"]/1000)
-            current_city=dict_base["name"]
-            dict_weather = dict_base["weather"] 
-            weather_description = dict_weather[0]["description"] 
-
-            current_temperature = dict_main["temp"] 
-            feels_like_temperature = round(dict_main["feels_like"] )
-            current_pressure = dict_main["pressure"] 
-            current_humidiy = dict_main["humidity"] 
-            #sunset=dict_base["sys"]["sunrise"] 
-            #sunset=datetime.datetime.utcfromtimestamp(dict_base["sys"]["sunrise"]).strftime('%Y-%m-%dT%H:%M:%SZ')
-            
-            sunrise_utc_time = datetime.datetime.fromtimestamp(dict_base["sys"]["sunrise"], timezone.utc)
+            cur_humidity=cur_weather["humidity"]
+            cur_temp=cur_weather["temp"]
+            cur_dew=cur_weather["dew_point"]
+            cur_pressure=cur_weather["pressure"]
+            cur_visibility=cur_weather["visibility"]
+            cur_wind_speed=cur_weather["wind_speed"]
+            today_icon=dict_weather["current"]["weather"][0]["icon"]
+            today_sunset=cur_weather["sunset"]
+            today_sunrise=cur_weather["sunrise"]
+            sunrise_utc_time = datetime.datetime.fromtimestamp(today_sunset, timezone.utc)
             sunrise_local_time = sunrise_utc_time.astimezone()
             sunrise=sunrise_local_time.strftime("%H:%M")
-
-            sunset_utc_time = datetime.datetime.fromtimestamp(dict_base["sys"]["sunset"], timezone.utc)
+            sunset_utc_time = datetime.datetime.fromtimestamp(today_sunrise, timezone.utc)
             sunset_local_time = sunset_utc_time.astimezone()
             sunset=sunset_local_time.strftime("%H:%M")
+            #GUI.icon_label.photo = today_icon  
+            icon_path = 'weather_icons/'
+            today_icon += '.png'
+            icon_path += today_icon
+            print(icon_path)
+            #icon = PhotoImage(file='weather_icons/04n.png')  
+            GUI.icon_label.configure(image=icon)
+            GUI.icon_label.photo = icon            
+        else:
+            print("bye")
+        
+        #weather_url='http://api.openweathermap.org/data/2.5/weather?zip={zipcode},{countrycode}&appid={appkey}&units={units}'.format(zipcode=zipcode, countrycode=countrycode, units=units, appkey=openweathermap_appkey)
+        #response = requests.get(weather_url) 
+        #dict_base = response.json()
+        # if dict_base["cod"] != "404": 
+      
+        #     # store the value of "main" 
+        #     dict_main = dict_base["main"] 
+        #     wind=dict_base["wind"]
+        #     wind_speed=round(wind["speed"]*3.6)
+        #     current_visibility = round(dict_base["visibility"]/1000)
+        #     current_city=dict_base["name"]
+        #     dict_weather = dict_base["weather"] 
+        #     weather_description = dict_weather[0]["description"] 
+
+        #     current_temperature = dict_main["temp"] 
+        #     feels_like_temperature = round(dict_main["feels_like"] )
+        #     current_pressure = dict_main["pressure"] 
+        #     current_humidiy = dict_main["humidity"] 
+        #     #sunset=dict_base["sys"]["sunrise"] 
+        #     #sunset=datetime.datetime.utcfromtimestamp(dict_base["sys"]["sunrise"]).strftime('%Y-%m-%dT%H:%M:%SZ')
             
-            #sunset=dict_base["sys"]["sunset"]  
-            cloudiness=dict_base["clouds"]["all"]  
-            if not cloudiness:
-                cloudiness=0
-            # print(" Temperature (in Celsius unit): " +
-            #                     str(round(current_temperature)) + 
-            #           "\n Atmospheric pressure (in hPa unit):" +
-            #                     str(current_pressure) +
-            #           "\n Humidity: " +
-            #                     str(current_humidiy) + "%"
-            #           "\n Description: " +
-            #                     str(weather_description)) 
-            # print(" Visibility:"+str(round(a,2))+" KM")
-        else: 
-            print(" City Not Found ")     
-        GUI.weather_label_wind.configure(text='Wind Speed: '+ str(wind_speed) + " KM/H")
-        GUI.weather_label1.configure(text='Today in '+current_city+": "+ str(round(current_temperature)) + "| ")
-        GUI.weather_label_humidity.configure(text='Humidity: '+ str(round(current_humidiy)) + " %")
-        GUI.weather_label_pressure.configure(text='Pressure: '+ str(current_pressure) + " hPa")
-        GUI.weather_label_feels.configure(text='Feels Like: '+ str(feels_like_temperature))
-        GUI.weather_label_sunrise.configure(text='Sunrise: '+ str(sunrise))
-        GUI.weather_label_sunset.configure(text='Sunset: '+ str(sunset))
-        GUI.weather_label_visibility.configure(text='Visibility: '+ str(current_visibility)+ " KM")
-        GUI.weather_label_cloudiness.configure(text='Cloudiness: '+ str(cloudiness) + " %")
-        #GUI.weather_label_feels.configure(text='Feels Like: '+ str(current_pressure) + " hPa")
+        #     sunrise_utc_time = datetime.datetime.fromtimestamp(dict_base["sys"]["sunrise"], timezone.utc)
+        #     sunrise_local_time = sunrise_utc_time.astimezone()
+        #     sunrise=sunrise_local_time.strftime("%H:%M")
+
+        #     sunset_utc_time = datetime.datetime.fromtimestamp(dict_base["sys"]["sunset"], timezone.utc)
+        #     sunset_local_time = sunset_utc_time.astimezone()
+        #     sunset=sunset_local_time.strftime("%H:%M")
+            
+        #     #sunset=dict_base["sys"]["sunset"]  
+        #     cloudiness=dict_base["clouds"]["all"]  
+        #     if not cloudiness:
+        #         cloudiness=0
+        #     # print(" Temperature (in Celsius unit): " +
+        #     #                     str(round(current_temperature)) + 
+        #     #           "\n Atmospheric pressure (in hPa unit):" +
+        #     #                     str(current_pressure) +
+        #     #           "\n Humidity: " +
+        #     #                     str(current_humidiy) + "%"
+        #     #           "\n Description: " +
+        #     #                     str(weather_description)) 
+        #     # print(" Visibility:"+str(round(a,2))+" KM")
+        # else: 
+        #     print(" City Not Found ")     
+        # GUI.weather_label_wind.configure(text='Wind Speed: '+ str(wind_speed) + " KM/H")
+        # GUI.weather_label1.configure(text='Today in '+current_city+": "+ str(round(current_temperature)) + "| ")
+        # GUI.weather_label_humidity.configure(text='Humidity: '+ str(round(current_humidiy)) + " %")
+        # GUI.weather_label_pressure.configure(text='Pressure: '+ str(current_pressure) + " hPa")
+        # GUI.weather_label_feels.configure(text='Feels Like: '+ str(feels_like_temperature))
+        # GUI.weather_label_sunrise.configure(text='Sunrise: '+ str(sunrise))
+        # GUI.weather_label_sunset.configure(text='Sunset: '+ str(sunset))
+        # GUI.weather_label_visibility.configure(text='Visibility: '+ str(current_visibility)+ " KM")
+        # GUI.weather_label_cloudiness.configure(text='Cloudiness: '+ str(cloudiness) + " %")
+        # #GUI.weather_label_feels.configure(text='Feels Like: '+ str(current_pressure) + " hPa")
         window.after(600000, mirror.updateWeatherDetails)
         
     def updateWeather(self):
