@@ -32,45 +32,45 @@ class Weather():
         
         if WeatherType=='C': # Today/Current
             # https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-            url=self.base_url+"weather?lat={lat}&lon={lon}&appid={API_key}".format(lat=self.latitude,lon=self.longitude, API_key=self.openweathermap_appkey)
+            url=self.base_url+"weather?lat={lat}&lon={lon}&appid={API_key}&units={units}".format(lat=self.latitude,lon=self.longitude, API_key=self.openweathermap_appkey,units=self.units)
         elif WeatherType=='D': # Daily Forecast 7 days
             # https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
-            url=self.base_url+"onecall?lat={lat}&lon={lon}&exclude={part}&appid={API_key}".format(lat=self.latitude,lon=self.longitude, API_key=self.openweathermap_appkey,part=self.exclude)
+            url=self.base_url+"onecall?lat={lat}&lon={lon}&exclude={part}&appid={API_key}&units={units}".format(lat=self.latitude,lon=self.longitude, API_key=self.openweathermap_appkey,part=self.exclude,units=self.units)
         elif WeatherType=='A': # Alert 
             # https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
-            url=self.base_url+"onecall?lat={lat}&lon={lon}&exclude={part}&appid={API_key}".format(lat=self.latitude,lon=self.longitude, API_key=self.openweathermap_appkey, part=self.exclude)        
+            url=self.base_url+"onecall?lat={lat}&lon={lon}&exclude={part}&appid={API_key}&units={units}".format(lat=self.latitude,lon=self.longitude, API_key=self.openweathermap_appkey, part=self.exclude,units=self.units)        
         else: # Current
             # https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-            url=self.base_url+"weather?lat={lat}&lon={lon}&appid={API_key}".format(lat=self.latitude,lon=self.longitude(), API_key=self.openweathermap_appkey)            
+            url=self.base_url+"weather?lat={lat}&lon={lon}&appid={API_key}&units={units}".format(lat=self.latitude,lon=self.longitude(), API_key=self.openweathermap_appkey,units=self.units)
         return url
     
     def TodayWeather(self):
         objWeather=Weather()
-        url=objWeather.GetWeatherUrl('C')
+        url=objWeather.GetWeatherUrl('D')
         print(url)
         response = requests.get(url) 
         dict_weather = response.json()
         dict_current = {}
-        # if "current" in dict_weather:
-        #     cur_weather=dict_weather["current"]
-        #     cur_feels=cur_weather["feels_like"]
-        #     cur_humidity=cur_weather["humidity"]
-        #     cur_temp=cur_weather["temp"]
-        #     cur_dew=cur_weather["dew_point"]
-        #     cur_pressure=cur_weather["pressure"]
-        #     cur_visibility=cur_weather["visibility"]
-        #     cur_wind_speed=cur_weather["wind_speed"]
-        #     today_icon=dict_weather["current"]["weather"][0]["icon"]
-        #     today_sunset=cur_weather["sunset"]
-        #     today_sunrise=cur_weather["sunrise"]
-        #     sunrise_utc_time = datetime.datetime.fromtimestamp(today_sunset, timezone.utc)
-        #     sunrise_local_time = sunrise_utc_time.astimezone()
-        #     sunrise=sunrise_local_time.strftime("%H:%M")
-        #     sunset_utc_time = datetime.datetime.fromtimestamp(today_sunrise, timezone.utc)
-        #     sunset_local_time = sunset_utc_time.astimezone()
-        #     sunset=sunset_local_time.strftime("%H:%M")
-        #     #GUI.icon_label.photo = today_icon  
-        #     icon_path = 'weather_icons/'
+        if "current" in dict_weather:
+            cur_weather=dict_weather["current"]
+            cur_feels=cur_weather["feels_like"]
+            cur_humidity=cur_weather["humidity"]
+            cur_temp=cur_weather["temp"]
+            cur_dew=cur_weather["dew_point"]
+            cur_pressure=cur_weather["pressure"]
+            cur_visibility=cur_weather["visibility"]
+            cur_wind_speed=cur_weather["wind_speed"]
+            today_icon=dict_weather["current"]["weather"][0]["icon"]
+            today_sunset=cur_weather["sunset"]
+            today_sunrise=cur_weather["sunrise"]
+            sunrise_utc_time = datetime.datetime.fromtimestamp(today_sunset, timezone.utc)
+            sunrise_local_time = sunrise_utc_time.astimezone()
+            sunrise=sunrise_local_time.strftime("%H:%M")
+            sunset_utc_time = datetime.datetime.fromtimestamp(today_sunrise, timezone.utc)
+            sunset_local_time = sunset_utc_time.astimezone()
+            sunset=sunset_local_time.strftime("%H:%M")
+            #GUI.icon_label.photo = today_icon  
+            icon_path = 'weather_icons/'
         #     today_icon += '.png'
         #     icon_path += today_icon
         #     print(icon_path)
