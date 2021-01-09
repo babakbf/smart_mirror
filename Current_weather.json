@@ -1,0 +1,43 @@
+{
+	"coord": {
+		"lon": -73.483,
+		"lat": 45.4159
+	},
+	"weather": [
+		{
+			"id": 801,
+			"main": "Clouds",
+			"description": "few clouds",
+			"icon": "02n"
+		}
+	],
+	"base": "stations",
+	"main": {
+		"temp": 265.31,
+		"feels_like": 259.8,
+		"temp_min": 263.71,
+		"temp_max": 267.15,
+		"pressure": 1017,
+		"humidity": 58
+	},
+	"visibility": 10000,
+	"wind": {
+		"speed": 3.09,
+		"deg": 290
+	},
+	"clouds": {
+		"all": 17
+	},
+	"dt": 1610159759,
+	"sys": {
+		"type": 1,
+		"id": 498,
+		"country": "CA",
+		"sunrise": 1610109163,
+		"sunset": 1610141302
+	},
+	"timezone": -18000,
+	"id": 6049863,
+	"name": "La Prairie",
+	"cod": 200
+}

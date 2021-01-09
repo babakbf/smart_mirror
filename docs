@@ -1,4 +1,13 @@
-icons:
-https://www.deviantart.com/vclouds/art/VClouds-Weather-Icons-179152045
-api endpoint:
-https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22nome%2C%20ak%22)&format=json
+List of feature: https://openweathermap.org/price
+Weather Conditions: https://openweathermap.org/weather-conditions
+
+National Weather Alerts*
+sample:
+https://api.openweathermap.org/data/2.5/onecall?lat=45.415907100000005&lon=-73.48298489999999&exclude=hourly,daily&appid=c9cdea1f63b108c6311423e7fe4686a9
+
+Daily Forecast 7 days*
+sample:
+https://api.openweathermap.org/data/2.5/onecall?lat=45.415907100000005&lon=-73.48298489999999&exclude=hourly,minutely&appid=c9cdea1f63b108c6311423e7fe4686a9
+
+Current Weather
+sample: https://api.openweathermap.org/data/2.5/weather?lat=45.415907100000005&lon=-73.48298489999999&exclude=hourly,minutely&appid=c9cdea1f63b108c6311423e7fe4686a9

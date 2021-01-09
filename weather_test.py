@@ -122,7 +122,7 @@ class GUI(Frame):
         GUI.weather_label8.grid(row=7, column=0, sticky=W)
         
         
-        icon = PhotoImage(file="weather_icons/02d.png")
+        icon = PhotoImage(file="weather_icons/02d.gif")
         icon = icon.subsample(10)
 
         # Set up labels to hold weather icons

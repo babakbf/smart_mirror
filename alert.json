@@ -1,0 +1,323 @@
+{	"lat": 45.4159,
+	"lon": -73.483,
+	"timezone": "America/Toronto",
+	"timezone_offset": -18000,
+	"current": {
+		"dt": 1610159175,
+		"sunrise": 1610109163,
+		"sunset": 1610141302,
+		"temp": 265.24,
+		"feels_like": 259.72,
+		"pressure": 1017,
+		"humidity": 58,
+		"dew_point": 259.15,
+		"uvi": 0,
+		"clouds": 0,
+		"visibility": 10000,
+		"wind_speed": 3.09,
+		"wind_deg": 290,
+		"weather": [
+			{
+				"id": 800,
+				"main": "Clear",
+				"description": "clear sky",
+				"icon": "01n"
+			}
+		]
+	},
+	"daily": [
+		{
+			"dt": 1610125200,
+			"sunrise": 1610109163,
+			"sunset": 1610141302,
+			"temp": {
+				"day": 265.93,
+				"min": 261.99,
+				"max": 267.19,
+				"night": 265.1,
+				"eve": 265.67,
+				"morn": 262.55
+			},
+			"feels_like": {
+				"day": 260.13,
+				"night": 259.64,
+				"eve": 260.01,
+				"morn": 257.46
+			},
+			"pressure": 1018,
+			"humidity": 95,
+			"dew_point": 263.85,
+			"wind_speed": 4.16,
+			"wind_deg": 261,
+			"weather": [
+				{
+					"id": 800,
+					"main": "Clear",
+					"description": "clear sky",
+					"icon": "01d"
+				}
+			],
+			"clouds": 0,
+			"pop": 0,
+			"uvi": 1.52
+		},
+		{
+			"dt": 1610211600,
+			"sunrise": 1610195545,
+			"sunset": 1610227770,
+			"temp": {
+				"day": 269.11,
+				"min": 263.16,
+				"max": 270.14,
+				"night": 266.51,
+				"eve": 267.52,
+				"morn": 263.68
+			},
+			"feels_like": {
+				"day": 264.5,
+				"night": 261.81,
+				"eve": 263.01,
+				"morn": 258.88
+			},
+			"pressure": 1016,
+			"humidity": 94,
+			"dew_point": 266.43,
+			"wind_speed": 2.88,
+			"wind_deg": 275,
+			"weather": [
+				{
+					"id": 801,
+					"main": "Clouds",
+					"description": "few clouds",
+					"icon": "02d"
+				}
+			],
+			"clouds": 15,
+			"pop": 0,
+			"uvi": 1.39
+		},
+		{
+			"dt": 1610298000,
+			"sunrise": 1610281924,
+			"sunset": 1610314240,
+			"temp": {
+				"day": 268.64,
+				"min": 263.8,
+				"max": 269.21,
+				"night": 267.07,
+				"eve": 265.6,
+				"morn": 264.03
+			},
+			"feels_like": {
+				"day": 264.74,
+				"night": 262.31,
+				"eve": 260.93,
+				"morn": 259.69
+			},
+			"pressure": 1024,
+			"humidity": 96,
+			"dew_point": 266.67,
+			"wind_speed": 1.83,
+			"wind_deg": 257,
+			"weather": [
+				{
+					"id": 800,
+					"main": "Clear",
+					"description": "clear sky",
+					"icon": "01d"
+				}
+			],
+			"clouds": 0,
+			"pop": 0,
+			"uvi": 1.24
+		},
+		{
+			"dt": 1610384400,
+			"sunrise": 1610368300,
+			"sunset": 1610400710,
+			"temp": {
+				"day": 272.17,
+				"min": 265.42,
+				"max": 272.31,
+				"night": 271.33,
+				"eve": 271.51,
+				"morn": 265.46
+			},
+			"feels_like": {
+				"day": 267.13,
+				"night": 266.11,
+				"eve": 267.34,
+				"morn": 260.99
+			},
+			"pressure": 1023,
+			"humidity": 96,
+			"dew_point": 270.15,
+			"wind_speed": 4.06,
+			"wind_deg": 245,
+			"weather": [
+				{
+					"id": 600,
+					"main": "Snow",
+					"description": "light snow",
+					"icon": "13d"
+				}
+			],
+			"clouds": 96,
+			"pop": 0.28,
+			"snow": 0.61,
+			"uvi": 0.92
+		},
+		{
+			"dt": 1610470800,
+			"sunrise": 1610454674,
+			"sunset": 1610487183,
+			"temp": {
+				"day": 272.44,
+				"min": 268.21,
+				"max": 272.63,
+				"night": 272.63,
+				"eve": 272.11,
+				"morn": 268.21
+			},
+			"feels_like": {
+				"day": 267.55,
+				"night": 268.51,
+				"eve": 268.29,
+				"morn": 263.49
+			},
+			"pressure": 1018,
+			"humidity": 96,
+			"dew_point": 270.27,
+			"wind_speed": 3.89,
+			"wind_deg": 246,
+			"weather": [
+				{
+					"id": 803,
+					"main": "Clouds",
+					"description": "broken clouds",
+					"icon": "04d"
+				}
+			],
+			"clouds": 67,
+			"pop": 0.13,
+			"uvi": 1.11
+		},
+		{
+			"dt": 1610557200,
+			"sunrise": 1610541045,
+			"sunset": 1610573656,
+			"temp": {
+				"day": 272.87,
+				"min": 271.06,
+				"max": 272.87,
+				"night": 271.86,
+				"eve": 271.32,
+				"morn": 271.06
+			},
+			"feels_like": {
+				"day": 267.87,
+				"night": 267.88,
+				"eve": 266.87,
+				"morn": 266.69
+			},
+			"pressure": 1012,
+			"humidity": 97,
+			"dew_point": 271.5,
+			"wind_speed": 4.17,
+			"wind_deg": 262,
+			"weather": [
+				{
+					"id": 600,
+					"main": "Snow",
+					"description": "light snow",
+					"icon": "13d"
+				}
+			],
+			"clouds": 94,
+			"pop": 0.63,
+			"snow": 1.05,
+			"uvi": 2
+		},
+		{
+			"dt": 1610643600,
+			"sunrise": 1610627414,
+			"sunset": 1610660131,
+			"temp": {
+				"day": 273.67,
+				"min": 270.66,
+				"max": 273.85,
+				"night": 273.85,
+				"eve": 273.22,
+				"morn": 271.28
+			},
+			"feels_like": {
+				"day": 269.18,
+				"night": 267.8,
+				"eve": 267.99,
+				"morn": 266.79
+			},
+			"pressure": 1009,
+			"humidity": 94,
+			"dew_point": 272.14,
+			"wind_speed": 3.51,
+			"wind_deg": 176,
+			"weather": [
+				{
+					"id": 804,
+					"main": "Clouds",
+					"description": "overcast clouds",
+					"icon": "04d"
+				}
+			],
+			"clouds": 99,
+			"pop": 0.02,
+			"uvi": 2
+		},
+		{
+			"dt": 1610730000,
+			"sunrise": 1610713781,
+			"sunset": 1610746608,
+			"temp": {
+				"day": 274.84,
+				"min": 272.11,
+				"max": 274.84,
+				"night": 272.11,
+				"eve": 273.62,
+				"morn": 274.57
+			},
+			"feels_like": {
+				"day": 269.51,
+				"night": 267.29,
+				"eve": 269.26,
+				"morn": 267.73
+			},
+			"pressure": 999,
+			"humidity": 95,
+			"dew_point": 274.18,
+			"wind_speed": 4.99,
+			"wind_deg": 184,
+			"weather": [
+				{
+					"id": 616,
+					"main": "Snow",
+					"description": "rain and snow",
+					"icon": "13d"
+				}
+			],
+			"clouds": 100,
+			"pop": 0.84,
+			"rain": 0.46,
+			"snow": 2.3,
+			"uvi": 2
+		}
+	]
+}"alerts": [
+    {
+      "sender_name": "NWS Tulsa (Eastern Oklahoma)",
+      "event": "Heat Advisory",
+      "start": 1597341600,
+      "end": 1597366800,
+      "description": "...HEAT ADVISORY REMAINS IN EFFECT FROM 1 PM THIS AFTERNOON TO\n8 PM CDT THIS EVENING...\n* WHAT...Heat index values of 105 to 109 degrees expected.\n* WHERE...Creek, Okfuskee, Okmulgee, McIntosh, Pittsburg,\nLatimer, Pushmataha, and Choctaw Counties.\n* WHEN...From 1 PM to 8 PM CDT Thursday.\n* IMPACTS...The combination of hot temperatures and high\nhumidity will combine to create a dangerous situation in which\nheat illnesses are possible."
+    },
+    ...
+  ]
