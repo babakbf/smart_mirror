@@ -28,20 +28,29 @@ class Weather():
         #self.weather_api_url='https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={ex}&appid={appkey}&units={units}'.format(lat=latitude,appkey=openweathermap_appkey,lon=longitude,units=units,ex=exclude)
 
     def GetWeatherUrl(self,WeatherType):
-        # Alert
-        # https://api.openweathermap.org/data/2.5/onecall?lat=45.415907100000005&lon=-73.48298489999999&exclude=hourly,minutely&appid=c9cdea1f63b108c6311423e7fe4686a9
         # Weather Type C: Today/Current D:Daily Forecast 7 days A: Alert
-        if WeatherType=='C':
-            # https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-            url=self.base_url+"weather?lat={lat}&lon={lon}&appid={API_key}".format(lat=self.latitude,lon=self.longitude(), API_key=self.openweathermap_appkey)
-        else:
-            print(WeatherType)
         
+        if WeatherType=='C': # Today/Current
+            # https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+            url=self.base_url+"weather?lat={lat}&lon={lon}&appid={API_key}".format(lat=self.latitude,lon=self.longitude, API_key=self.openweathermap_appkey)
+        elif WeatherType=='D': # Daily Forecast 7 days
+            # https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+            url=self.base_url+"onecall?lat={lat}&lon={lon}&exclude={part}&appid={API_key}".format(lat=self.latitude,lon=self.longitude, API_key=self.openweathermap_appkey,part=self.exclude)
+        elif WeatherType=='A': # Alert 
+            # https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+            url=self.base_url+"onecall?lat={lat}&lon={lon}&exclude={part}&appid={API_key}".format(lat=self.latitude,lon=self.longitude, API_key=self.openweathermap_appkey, part=self.exclude)        
+        else: # Current
+            # https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+            url=self.base_url+"weather?lat={lat}&lon={lon}&appid={API_key}".format(lat=self.latitude,lon=self.longitude(), API_key=self.openweathermap_appkey)            
+        return url
+    
     def TodayWeather(self):
-        a=Weather()
-        a.GetWeatherUrl('l')
-        # response = requests.get(weather_api_url) 
-        # dict_weather = response.json()
+        objWeather=Weather()
+        url=objWeather.GetWeatherUrl('C')
+        print(url)
+        response = requests.get(url) 
+        dict_weather = response.json()
+        dict_current = {}
         # if "current" in dict_weather:
         #     cur_weather=dict_weather["current"]
         #     cur_feels=cur_weather["feels_like"]
