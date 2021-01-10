@@ -27,7 +27,15 @@ class Weather():
         self.icon_path = 'weather_icons/'
         self.icon_ext = '.png'
         self.base_url='https://api.openweathermap.org/data/2.5/'
-        self.activity_main_wind_speed_threshold=20
+        self.activity_main_wind_speed_threshold=40
+        self.activity_main_min_temp_threshold=-18
+        self.activity_drone_min_temp_threshold=-5
+        self.activity_drone_wind_speed_threshold=20
+        self.activity_drone_visibility_threshold=5
+        self.activity_kayak_wind_speed_threshold=20
+        self.activity_main_dew_threshold=-28
+        self.activity_main_max_temp_threshold=40
+        self.activity_main_hum_threshold=95
         #self.weather_api_url='https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={ex}&appid={appkey}&units={units}'.format(lat=latitude,appkey=openweathermap_appkey,lon=longitude,units=units,ex=exclude)
 
     def GetWeatherUrl(self,WeatherType):
@@ -54,6 +62,7 @@ class Weather():
         response = requests.get(url) 
         dict_weather = response.json()
         dict_current = {}
+        activity_condition = True
         if "current" in dict_weather:
             cur_weather=dict_weather["current"]
             dict_current["cur_feels_Like"]=round(cur_weather["feels_like"])
@@ -70,7 +79,7 @@ class Weather():
             dict_current["cur_desc"]=objWeather.GetWeatherDesc(dict_weather["current"]["weather"][0]["id"])
             if wind_speed >= self.activity_main_wind_speed_threshold:
                 activity_condition= False
-                
+            
         if "daily" in dict_weather:
             
             # Day 0 
@@ -81,6 +90,26 @@ class Weather():
             dict_current["day0_sunset"]=objWeather.UnixTimeToLocal(dict_day0["sunset"]).strftime("%H:%M")
             dict_current["day0_temp_max"]=dict_day0["temp"]["max"]
             dict_current["day0_temp_min"]=dict_day0["temp"]["min"]
+            dict_current["day0_temp_mor"]=dict_day0["temp"]["morn"]
+            dict_current["day0_temp_day"]=dict_day0["temp"]["day"]
+            dict_current["day0_temp_eve"]=dict_day0["temp"]["eve"]
+            dict_current["day0_temp_night"]=dict_day0["temp"]["night"]
+            dict_current["day0_feels_mor"]=dict_day0["feels_like"]["morn"]
+            dict_current["day0_feels_day"]=dict_day0["feels_like"]["day"]
+            dict_current["day0_feels_eve"]=dict_day0["feels_like"]["eve"]
+            dict_current["day0_feels_night"]=dict_day0["feels_like"]["night"]
+            dict_current["day0_dew_point"]=dict_day0["dew_point"]
+            dict_current["day0_pressure"]=dict_day0["pressure"]
+            dict_current["day0_humidity"]=dict_day0["humidity"]
+            dict_current["day0_wind_speed"]=round(dict_day0["wind_speed"]*3.6)
+            dict_current["day0_id"]=dict_day0["weather"][0]["id"]
+            dict_current["day0_desc"]=objWeather.GetWeatherDesc(dict_current["day0_id"])
+            if dict_current["day0_wind_speed"] >= self.activity_main_wind_speed_threshold or \
+                dict_current["day0_dew_point"] <= self.activity_main_dew_threshold or \
+                dict_current["day0_temp_max"] >= self.activity_main_max_temp_threshold or \
+                dict_current["day0_temp_min"] <= self.activity_main_min_temp_threshold :
+                activity_condition= False
+            dict_current["day0_activity"]=objWeather.GetActivity(dict_current["day0_id"],dict_current["day0_temp_max"],dict_current["day0_temp_min"],dict_current["day0_wind_speed"],dict_current["day0_dew_point"],cur_weather["visibility"],dict_current["day0_sunset"])            
             
             
             # Day 1 
@@ -157,12 +186,35 @@ class Weather():
         icon_file=self.icon_path+icon_name+self.icon_ext
         return icon_file
 
-    def GetActivity(self, weather_id):
-        df=pd.read_csv("weather_conditions.csv")
-        df_new=df.query('ID=='+str(weather_id))
-        Activity=''
-        for item in df_new["Description"].values:
-            Activity += item
+    def GetActivity(self, weather_id,max_tem,min_temp,wind_speed,dew_point,visibility,sunset):
+        activity_condition = True
+        if wind_speed >= self.activity_main_wind_speed_threshold or \
+            dew_point <= self.activity_main_dew_threshold or \
+            max_tem >= self.activity_main_max_temp_threshold or \
+            min_temp <= self.activity_main_min_temp_threshold :
+            activity_condition= False        
+        
+        if activity_condition == True:
+            df=pd.read_csv("weather_conditions.csv")
+            df_new=df.query('ID=='+str(weather_id))
+            Activity=''
+            now = datetime.datetime.now()
+            current_time = now.strftime("%H:%M")
+            for item in df_new["Jogging"].values:
+                if current_time < sunset or \
+                    str((datetime.datetime.strptime(current_time,"%H:%M")- \
+                    datetime.datetime.strptime(sunset,"%H:%M")).seconds) < "14400"  :
+                        Activity = 'Nice Weather for Jogging and Walking '
+                else:
+                    Activity = 'Stay at home'
+                    
+            for item in df_new["Drone"].values:
+                if item == 'YES' and min_temp > self.activity_drone_min_temp_threshold and \
+                    wind_speed < self.activity_drone_wind_speed_threshold and \
+                    visibility > self.activity_drone_visibility_threshold and \
+                         sunset < current_time:
+                    Activity += ' Flying Drone'           
+        print((datetime.datetime.strptime(current_time,"%H:%M")-datetime.datetime.strptime(sunset,"%H:%M")).seconds)         
         return str(Activity)
     
 a=Weather()

@@ -52,5 +52,5 @@ ID,Main,Description,Icon,Drone,Ski,Jogging,Kayaking ,BBQ
 800,Clear,Clear sky,01d,YES,YES,YES,YES,YES
 801,Clouds,few clouds: 11-25%,02d,YES,YES,YES,YES,YES
 802,Clouds,Scattered clouds: 25-50%,03d,YES,YES,YES,YES,YES
-803,Clouds,Broken clouds: 51-84%,04d,YES,YES,YES,YES,YES
+803,Clouds,Broken clouds: 51-84%,04d,NO,YES,YES,YES,YES
 804,Clouds,Overcast clouds: 85-100%,04d,NO,YES,YES,YES,YES
