@@ -124,7 +124,7 @@ class GUI(Frame):
                                    font=self.normalFont, justify=LEFT)
         GUI.weather_label8.grid(row=7, column=0, sticky=W)
 
-        icon = PhotoImage(file="weather_icons/partly-cloudy-day.gif")
+        icon = PhotoImage(file="weather_icons/drone.gif")
         icon = icon.subsample(10)
 
         # Set up labels to hold weather icons

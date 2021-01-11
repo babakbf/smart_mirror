@@ -33,9 +33,13 @@ class Weather():
         self.activity_drone_wind_speed_threshold=20
         self.activity_drone_visibility_threshold=5
         self.activity_kayak_wind_speed_threshold=20
+        self.activity_kayak_min_temp_threshold=22
+        self.activity_BBQ_min_temp_threshold=-5
+        self.activity_BIKE_min_temp_threshold=15
         self.activity_main_dew_threshold=-28
         self.activity_main_max_temp_threshold=40
         self.activity_main_hum_threshold=95
+        self.activity_min_jogging_offset_seconds_threshold=14400
         #self.weather_api_url='https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={ex}&appid={appkey}&units={units}'.format(lat=latitude,appkey=openweathermap_appkey,lon=longitude,units=units,ex=exclude)
 
     def GetWeatherUrl(self,WeatherType):
@@ -58,7 +62,7 @@ class Weather():
     def WeatherInf(self):
         objWeather=Weather()
         url=objWeather.GetWeatherUrl('D')
-        print(url)
+        # print(url)
         response = requests.get(url) 
         dict_weather = response.json()
         dict_current = {}
@@ -75,7 +79,7 @@ class Weather():
             dict_current["cur_wind_speed"]=str(wind_speed)+ " KM/H"
             dict_current["today_sunrise"]=objWeather.UnixTimeToLocal(cur_weather["sunrise"]).strftime("%H:%M")
             dict_current["today_sunset"]=objWeather.UnixTimeToLocal(cur_weather["sunset"]).strftime("%H:%M")
-            dict_current["today_icon"]= objWeather.GetIconFile(dict_weather["current"]["weather"][0]["icon"]) #self.icon_path+today_icon+self.icon_ext
+            dict_current["today_icon"]= objWeather.GetIconFile(dict_weather["current"]["weather"][0]["icon"]) 
             dict_current["cur_desc"]=objWeather.GetWeatherDesc(dict_weather["current"]["weather"][0]["id"])
             if wind_speed >= self.activity_main_wind_speed_threshold:
                 activity_condition= False
@@ -88,106 +92,226 @@ class Weather():
             dict_current["day0_name"]=objWeather.UnixTimeToLocal(dict_day0["dt"]).strftime("%A")
             dict_current["day0_sunrise"]=objWeather.UnixTimeToLocal(dict_day0["sunrise"]).strftime("%H:%M")
             dict_current["day0_sunset"]=objWeather.UnixTimeToLocal(dict_day0["sunset"]).strftime("%H:%M")
-            dict_current["day0_temp_max"]=dict_day0["temp"]["max"]
-            dict_current["day0_temp_min"]=dict_day0["temp"]["min"]
-            dict_current["day0_temp_mor"]=dict_day0["temp"]["morn"]
-            dict_current["day0_temp_day"]=dict_day0["temp"]["day"]
-            dict_current["day0_temp_eve"]=dict_day0["temp"]["eve"]
-            dict_current["day0_temp_night"]=dict_day0["temp"]["night"]
-            dict_current["day0_feels_mor"]=dict_day0["feels_like"]["morn"]
-            dict_current["day0_feels_day"]=dict_day0["feels_like"]["day"]
-            dict_current["day0_feels_eve"]=dict_day0["feels_like"]["eve"]
-            dict_current["day0_feels_night"]=dict_day0["feels_like"]["night"]
-            dict_current["day0_dew_point"]=dict_day0["dew_point"]
-            dict_current["day0_pressure"]=dict_day0["pressure"]
-            dict_current["day0_humidity"]=dict_day0["humidity"]
-            dict_current["day0_wind_speed"]=round(dict_day0["wind_speed"]*3.6)
+            dict_current["day0_temp_max"]=round(dict_day0["temp"]["max"])
+            dict_current["day0_temp_min"]=round(dict_day0["temp"]["min"])
+            dict_current["day0_temp_mor"]=round(dict_day0["temp"]["morn"])
+            dict_current["day0_temp_day"]=round(dict_day0["temp"]["day"])
+            dict_current["day0_temp_eve"]=round(dict_day0["temp"]["eve"])
+            dict_current["day0_temp_night"]=round(dict_day0["temp"]["night"])
+            dict_current["day0_feels_mor"]=round(dict_day0["feels_like"]["morn"])
+            dict_current["day0_feels_day"]=round(dict_day0["feels_like"]["day"])
+            dict_current["day0_feels_eve"]=round(dict_day0["feels_like"]["eve"])
+            dict_current["day0_feels_night"]=round(dict_day0["feels_like"]["night"])
+            dict_current["day0_dew_point"]=round(dict_day0["dew_point"])
+            dict_current["day0_pressure"]=str(dict_day0["pressure"]) + " hPa"
+            dict_current["day0_humidity"]=str(dict_day0["humidity"]) + " %"
+            dict_current["day0_wind_speed"]=str(round(dict_day0["wind_speed"]*3.6))+ " KM/H"
             dict_current["day0_id"]=dict_day0["weather"][0]["id"]
             dict_current["day0_desc"]=objWeather.GetWeatherDesc(dict_current["day0_id"])
-            if dict_current["day0_wind_speed"] >= self.activity_main_wind_speed_threshold or \
-                dict_current["day0_dew_point"] <= self.activity_main_dew_threshold or \
-                dict_current["day0_temp_max"] >= self.activity_main_max_temp_threshold or \
-                dict_current["day0_temp_min"] <= self.activity_main_min_temp_threshold :
-                activity_condition= False
-            dict_current["day0_activity"]=objWeather.GetActivity(dict_current["day0_id"],dict_current["day0_temp_max"],dict_current["day0_temp_min"],dict_current["day0_wind_speed"],dict_current["day0_dew_point"],cur_weather["visibility"],dict_current["day0_sunset"],1)            
-            
+            dict_current["day0_activity"]=objWeather.GetActivity(dict_current["day0_id"], \
+              dict_current["day0_temp_max"],dict_current["day0_temp_min"], \
+                  (dict_day0["wind_speed"]*3.6), \
+                      dict_current["day0_dew_point"], \
+                      cur_weather["visibility"],dict_current["day0_sunset"],1)            
+            dict_current["day0_icon"]= objWeather.GetIconFile(dict_day0["weather"][0]["icon"])
             
             # Day 1 
             dict_day1=dict_daily[1]
             dict_current["day1_name"]=objWeather.UnixTimeToLocal(dict_day1["dt"]).strftime("%A")
-            dict_current["day1_sunrise"]=objWeather.UnixTimeToLocal(dict_day1["sunrise"]).strftime("%H:%M")
-            dict_current["day1_sunset"]=objWeather.UnixTimeToLocal(dict_day1["sunset"]).strftime("%H:%M")
-            dict_current["day1_temp_max"]=dict_day1["temp"]["max"]
-            dict_current["day1_temp_min"]=dict_day1["temp"]["min"]
-            dict_current["day1_temp_mor"]=dict_day1["temp"]["morn"]
-            dict_current["day1_temp_day"]=dict_day1["temp"]["day"]
-            dict_current["day1_temp_eve"]=dict_day1["temp"]["eve"]
-            dict_current["day1_temp_night"]=dict_day1["temp"]["night"]
-            dict_current["day1_feels_mor"]=dict_day1["feels_like"]["morn"]
-            dict_current["day1_feels_day"]=dict_day1["feels_like"]["day"]
-            dict_current["day1_feels_eve"]=dict_day1["feels_like"]["eve"]
-            dict_current["day1_feels_night"]=dict_day1["feels_like"]["night"]
-            dict_current["day1_dew_point"]=dict_day1["dew_point"]
-            dict_current["day1_pressure"]=dict_day1["pressure"]
-            dict_current["day1_humidity"]=dict_day1["humidity"]
-            dict_current["day1_wind_speed"]=round(dict_day1["wind_speed"]*3.6)
+            dict_current["day1_sunrise"] = objWeather.UnixTimeToLocal(dict_day1["sunrise"]).strftime("%H:%M")
+            dict_current["day1_sunset"] = objWeather.UnixTimeToLocal(dict_day1["sunset"]).strftime("%H:%M")
+            dict_current["day1_temp_max"]=round(dict_day1["temp"]["max"])
+            dict_current["day1_temp_min"]=round(dict_day1["temp"]["min"])
+            dict_current["day1_temp_mor"]=round(dict_day1["temp"]["morn"])
+            dict_current["day1_temp_day"]=round(dict_day1["temp"]["day"])
+            dict_current["day1_temp_eve"]=round(dict_day1["temp"]["eve"])
+            dict_current["day1_temp_night"]=round(dict_day1["temp"]["night"])
+            dict_current["day1_feels_mor"]=round(dict_day1["feels_like"]["morn"])
+            dict_current["day1_feels_day"]=round(dict_day1["feels_like"]["day"])
+            dict_current["day1_feels_eve"]=round(dict_day1["feels_like"]["eve"])
+            dict_current["day1_feels_night"]=round(dict_day1["feels_like"]["night"])
+            dict_current["day1_dew_point"]=round(dict_day1["dew_point"])
+            dict_current["day1_pressure"]=str(dict_day1["pressure"]) + " hPa"
+            dict_current["day1_humidity"]=str(dict_day1["humidity"]) + " %"
+            dict_current["day1_wind_speed"]=str(round(dict_day1["wind_speed"]*3.6))+ " KM/H"
             dict_current["day1_id"]=dict_day1["weather"][0]["id"]
             dict_current["day1_desc"]=objWeather.GetWeatherDesc(dict_current["day1_id"])
-            if dict_current["day1_wind_speed"] >= self.activity_main_wind_speed_threshold or \
-                dict_current["day1_dew_point"] <= self.activity_main_dew_threshold or \
-                dict_current["day1_temp_max"] >= self.activity_main_max_temp_threshold or \
-                dict_current["day1_temp_min"] <= self.activity_main_min_temp_threshold :
-                activity_condition= False
-            dict_current["day1_activity"]=objWeather.GetActivity(dict_current["day1_id"],dict_current["day1_temp_max"],dict_current["day1_temp_min"],dict_current["day1_wind_speed"],dict_current["day1_dew_point"],100,"00:00",0)            
+            dict_current["day1_activity"]=objWeather.GetActivity(dict_current["day1_id"], \
+                    dict_current["day1_temp_max"],dict_current["day1_temp_min"], \
+                        (dict_day1["wind_speed"]*3.6), \
+                            dict_current["day1_dew_point"],100,"00:00",0)
+            dict_current["day1_icon"]= objWeather.GetIconFile(dict_day1["weather"][0]["icon"])                
+
+            
             
             # Day 2
             dict_day2=dict_daily[2]
-            day2_date_utc = datetime.datetime.fromtimestamp(dict_day2["dt"], timezone.utc)
-            day2_local_date = day2_date_utc.astimezone()
-            dict_current["day2_name"]=day2_local_date.strftime("%A")
+            dict_current["day2_name"]=objWeather.UnixTimeToLocal(dict_day2["dt"]).strftime("%A")
+            dict_current["day2_sunrise"] = objWeather.UnixTimeToLocal(dict_day2["sunrise"]).strftime("%H:%M")
+            dict_current["day2_sunset"] = objWeather.UnixTimeToLocal(dict_day2["sunset"]).strftime("%H:%M")
+            dict_current["day2_temp_max"]=round(dict_day2["temp"]["max"])
+            dict_current["day2_temp_min"]=round(dict_day2["temp"]["min"])
+            dict_current["day2_temp_mor"]=round(dict_day2["temp"]["morn"])
+            dict_current["day2_temp_day"]=round(dict_day2["temp"]["day"])
+            dict_current["day2_temp_eve"]=round(dict_day2["temp"]["eve"])
+            dict_current["day2_temp_night"]=round(dict_day2["temp"]["night"])
+            dict_current["day2_feels_mor"]=round(dict_day2["feels_like"]["morn"])
+            dict_current["day2_feels_day"]=round(dict_day2["feels_like"]["day"])
+            dict_current["day2_feels_eve"]=round(dict_day2["feels_like"]["eve"])
+            dict_current["day2_feels_night"]=round(dict_day2["feels_like"]["night"])
+            dict_current["day2_dew_point"]=round(dict_day2["dew_point"])
+            dict_current["day2_pressure"]=str(dict_day2["pressure"]) + " hPa"
+            dict_current["day2_humidity"]=str(dict_day2["humidity"]) + " %"
+            dict_current["day2_wind_speed"]=str(round(dict_day2["wind_speed"]*3.6))+ " KM/H"
+            dict_current["day2_id"]=dict_day2["weather"][0]["id"]
+            dict_current["day2_desc"]=objWeather.GetWeatherDesc(dict_current["day2_id"])
+            dict_current["day2_activity"]=objWeather.GetActivity(dict_current["day2_id"], \
+                    dict_current["day2_temp_max"],dict_current["day2_temp_min"], \
+                        (dict_day2["wind_speed"]*3.6), \
+                            dict_current["day2_dew_point"],100,"00:00",0)
+            dict_current["day2_icon"]= objWeather.GetIconFile(dict_day2["weather"][0]["icon"])       
 
             # Day 3
-            dict_daily=dict_weather["daily"]
             dict_day3=dict_daily[3]
-            day3_date_utc = datetime.datetime.fromtimestamp(dict_day3["dt"], timezone.utc)
-            day3_local_date = day3_date_utc.astimezone()
-            dict_current["day3_name"]=day3_local_date.strftime("%A")
+            dict_current["day3_name"]=objWeather.UnixTimeToLocal(dict_day3["dt"]).strftime("%A")
+            dict_current["day3_sunrise"] = objWeather.UnixTimeToLocal(dict_day3["sunrise"]).strftime("%H:%M")
+            dict_current["day3_sunset"] = objWeather.UnixTimeToLocal(dict_day3["sunset"]).strftime("%H:%M")
+            dict_current["day3_temp_max"]=round(dict_day3["temp"]["max"])
+            dict_current["day3_temp_min"]=round(dict_day3["temp"]["min"])
+            dict_current["day3_temp_mor"]=round(dict_day3["temp"]["morn"])
+            dict_current["day3_temp_day"]=round(dict_day3["temp"]["day"])
+            dict_current["day3_temp_eve"]=round(dict_day3["temp"]["eve"])
+            dict_current["day3_temp_night"]=round(dict_day3["temp"]["night"])
+            dict_current["day3_feels_mor"]=round(dict_day3["feels_like"]["morn"])
+            dict_current["day3_feels_day"]=round(dict_day3["feels_like"]["day"])
+            dict_current["day3_feels_eve"]=round(dict_day3["feels_like"]["eve"])
+            dict_current["day3_feels_night"]=round(dict_day3["feels_like"]["night"])
+            dict_current["day3_dew_point"]=round(dict_day3["dew_point"])
+            dict_current["day3_pressure"]=str(dict_day3["pressure"]) + " hPa"
+            dict_current["day3_humidity"]=str(dict_day3["humidity"]) + " %"
+            dict_current["day3_wind_speed"]=str(round(dict_day3["wind_speed"]*3.6))+ " KM/H"
+            dict_current["day3_id"]=dict_day3["weather"][0]["id"]
+            dict_current["day3_desc"]=objWeather.GetWeatherDesc(dict_current["day3_id"])
+            dict_current["day3_activity"]=objWeather.GetActivity(dict_current["day3_id"], \
+                    dict_current["day3_temp_max"],dict_current["day3_temp_min"], \
+                        (dict_day3["wind_speed"]*3.6), \
+                            dict_current["day3_dew_point"],100,"00:00",0)
+            dict_current["day3_icon"]= objWeather.GetIconFile(dict_day3["weather"][0]["icon"])   
 
             # Day 4
             dict_daily=dict_weather["daily"]
             dict_day4=dict_daily[4]
-            day4_date_utc = datetime.datetime.fromtimestamp(dict_day4["dt"], timezone.utc)
-            day4_local_date = day4_date_utc.astimezone()
-            dict_current["day4_name"]=day4_local_date.strftime("%A") 
+            dict_current["day4_name"]=objWeather.UnixTimeToLocal(dict_day4["dt"]).strftime("%A")
+            dict_current["day4_sunrise"] = objWeather.UnixTimeToLocal(dict_day4["sunrise"]).strftime("%H:%M")
+            dict_current["day4_sunset"] = objWeather.UnixTimeToLocal(dict_day4["sunset"]).strftime("%H:%M")
+            dict_current["day4_temp_max"]=round(dict_day4["temp"]["max"])
+            dict_current["day4_temp_min"]=round(dict_day4["temp"]["min"])
+            dict_current["day4_temp_mor"]=round(dict_day4["temp"]["morn"])
+            dict_current["day4_temp_day"]=round(dict_day4["temp"]["day"])
+            dict_current["day4_temp_eve"]=round(dict_day4["temp"]["eve"])
+            dict_current["day4_temp_night"]=round(dict_day4["temp"]["night"])
+            dict_current["day4_feels_mor"]=round(dict_day4["feels_like"]["morn"])
+            dict_current["day4_feels_day"]=round(dict_day4["feels_like"]["day"])
+            dict_current["day4_feels_eve"]=round(dict_day4["feels_like"]["eve"])
+            dict_current["day4_feels_night"]=round(dict_day4["feels_like"]["night"])
+            dict_current["day4_dew_point"]=round(dict_day4["dew_point"])
+            dict_current["day4_pressure"]=str(dict_day4["pressure"]) + " hPa"
+            dict_current["day4_humidity"]=str(dict_day4["humidity"]) + " %"
+            dict_current["day4_wind_speed"]=str(round(dict_day4["wind_speed"]*3.6))+ " KM/H"
+            dict_current["day4_id"]=dict_day4["weather"][0]["id"]
+            dict_current["day4_desc"]=objWeather.GetWeatherDesc(dict_current["day4_id"])
+            dict_current["day4_activity"]=objWeather.GetActivity(dict_current["day4_id"], \
+                    dict_current["day4_temp_max"],dict_current["day4_temp_min"], \
+                        (dict_day4["wind_speed"]*3.6), \
+                            dict_current["day4_dew_point"],100,"00:00",0)
+            dict_current["day4_icon"]= objWeather.GetIconFile(dict_day4["weather"][0]["icon"])    
             
             # Day 5
             dict_daily=dict_weather["daily"]
             dict_day5=dict_daily[5]
-            day5_date_utc = datetime.datetime.fromtimestamp(dict_day5["dt"], timezone.utc)
-            day5_local_date = day5_date_utc.astimezone()
-            dict_current["day5_name"]=day5_local_date.strftime("%A")
+            dict_current["day5_name"]=objWeather.UnixTimeToLocal(dict_day5["dt"]).strftime("%A")
+            dict_current["day5_sunrise"] = objWeather.UnixTimeToLocal(dict_day5["sunrise"]).strftime("%H:%M")
+            dict_current["day5_sunset"] = objWeather.UnixTimeToLocal(dict_day5["sunset"]).strftime("%H:%M")
+            dict_current["day5_temp_max"]=round(dict_day5["temp"]["max"])
+            dict_current["day5_temp_min"]=round(dict_day5["temp"]["min"])
+            dict_current["day5_temp_mor"]=round(dict_day5["temp"]["morn"])
+            dict_current["day5_temp_day"]=round(dict_day5["temp"]["day"])
+            dict_current["day5_temp_eve"]=round(dict_day5["temp"]["eve"])
+            dict_current["day5_temp_night"]=round(dict_day5["temp"]["night"])
+            dict_current["day5_feels_mor"]=round(dict_day5["feels_like"]["morn"])
+            dict_current["day5_feels_day"]=round(dict_day5["feels_like"]["day"])
+            dict_current["day5_feels_eve"]=round(dict_day5["feels_like"]["eve"])
+            dict_current["day5_feels_night"]=round(dict_day5["feels_like"]["night"])
+            dict_current["day5_dew_point"]=round(dict_day5["dew_point"])
+            dict_current["day5_pressure"]=str(dict_day5["pressure"]) + " hPa"
+            dict_current["day5_humidity"]=str(dict_day5["humidity"]) + " %"
+            dict_current["day5_wind_speed"]=str(round(dict_day5["wind_speed"]*3.6))+ " KM/H"
+            dict_current["day5_id"]=dict_day5["weather"][0]["id"]
+            dict_current["day5_desc"]=objWeather.GetWeatherDesc(dict_current["day5_id"])
+            dict_current["day5_activity"]=objWeather.GetActivity(dict_current["day5_id"], \
+                    dict_current["day5_temp_max"],dict_current["day5_temp_min"], \
+                        (dict_day5["wind_speed"]*3.6), \
+                            dict_current["day5_dew_point"],100,"00:00",0)
+            dict_current["day5_icon"]= objWeather.GetIconFile(dict_day5["weather"][0]["icon"])   
 
             # Day 6
             dict_daily=dict_weather["daily"]
             dict_day6=dict_daily[6]
-            day6_date_utc = datetime.datetime.fromtimestamp(dict_day6["dt"], timezone.utc)
-            day6_local_date = day6_date_utc.astimezone()
-            dict_current["day6_name"]=day6_local_date.strftime("%A")
+            dict_current["day6_name"]=objWeather.UnixTimeToLocal(dict_day6["dt"]).strftime("%A")
+            dict_current["day6_sunrise"] = objWeather.UnixTimeToLocal(dict_day6["sunrise"]).strftime("%H:%M")
+            dict_current["day6_sunset"] = objWeather.UnixTimeToLocal(dict_day6["sunset"]).strftime("%H:%M")
+            dict_current["day6_temp_max"]=round(dict_day6["temp"]["max"])
+            dict_current["day6_temp_min"]=round(dict_day6["temp"]["min"])
+            dict_current["day6_temp_mor"]=round(dict_day6["temp"]["morn"])
+            dict_current["day6_temp_day"]=round(dict_day6["temp"]["day"])
+            dict_current["day6_temp_eve"]=round(dict_day6["temp"]["eve"])
+            dict_current["day6_temp_night"]=round(dict_day6["temp"]["night"])
+            dict_current["day6_feels_mor"]=round(dict_day6["feels_like"]["morn"])
+            dict_current["day6_feels_day"]=round(dict_day6["feels_like"]["day"])
+            dict_current["day6_feels_eve"]=round(dict_day6["feels_like"]["eve"])
+            dict_current["day6_feels_night"]=round(dict_day6["feels_like"]["night"])
+            dict_current["day6_dew_point"]=round(dict_day6["dew_point"])
+            dict_current["day6_pressure"]=str(dict_day6["pressure"]) + " hPa"
+            dict_current["day6_humidity"]=str(dict_day6["humidity"]) + " %"
+            dict_current["day6_wind_speed"]=str(round(dict_day6["wind_speed"]*3.6))+ " KM/H"
+            dict_current["day6_id"]=dict_day6["weather"][0]["id"]
+            dict_current["day6_desc"]=objWeather.GetWeatherDesc(dict_current["day6_id"])
+            dict_current["day6_activity"]=objWeather.GetActivity(dict_current["day6_id"], \
+                    dict_current["day6_temp_max"],dict_current["day6_temp_min"], \
+                        (dict_day6["wind_speed"]*3.6), \
+                            dict_current["day6_dew_point"],100,"00:00",0)
+            dict_current["day6_icon"]= objWeather.GetIconFile(dict_day6["weather"][0]["icon"])    
             
             # Day 7
             dict_daily=dict_weather["daily"]
             dict_day7=dict_daily[7]
-            day7_date_utc = datetime.datetime.fromtimestamp(dict_day7["dt"], timezone.utc)
-            day7_local_date = day7_date_utc.astimezone()
-            dict_current["day7_name"]=day7_local_date.strftime("%A")            
+            dict_current["day7_name"]=objWeather.UnixTimeToLocal(dict_day7["dt"]).strftime("%A")
+            dict_current["day7_sunrise"] = objWeather.UnixTimeToLocal(dict_day7["sunrise"]).strftime("%H:%M")
+            dict_current["day7_sunset"] = objWeather.UnixTimeToLocal(dict_day7["sunset"]).strftime("%H:%M")
+            dict_current["day7_temp_max"]=round(dict_day7["temp"]["max"])
+            dict_current["day7_temp_min"]=round(dict_day7["temp"]["min"])
+            dict_current["day7_temp_mor"]=round(dict_day7["temp"]["morn"])
+            dict_current["day7_temp_day"]=round(dict_day7["temp"]["day"])
+            dict_current["day7_temp_eve"]=round(dict_day7["temp"]["eve"])
+            dict_current["day7_temp_night"]=round(dict_day7["temp"]["night"])
+            dict_current["day7_feels_mor"]=round(dict_day7["feels_like"]["morn"])
+            dict_current["day7_feels_day"]=round(dict_day7["feels_like"]["day"])
+            dict_current["day7_feels_eve"]=round(dict_day7["feels_like"]["eve"])
+            dict_current["day7_feels_night"]=round(dict_day7["feels_like"]["night"])
+            dict_current["day7_dew_point"]=round(dict_day7["dew_point"])
+            dict_current["day7_pressure"]=str(dict_day7["pressure"]) + " hPa"
+            dict_current["day7_humidity"]=str(dict_day7["humidity"]) + " %"
+            dict_current["day7_wind_speed"]=str(round(dict_day7["wind_speed"]*3.6))+ " KM/H"
+            dict_current["day7_id"]=dict_day7["weather"][0]["id"]
+            dict_current["day7_desc"]=objWeather.GetWeatherDesc(dict_current["day7_id"])
+            dict_current["day7_activity"]=objWeather.GetActivity(dict_current["day7_id"], \
+                    dict_current["day7_temp_max"],dict_current["day7_temp_min"], \
+                        (dict_day7["wind_speed"]*3.6), \
+                            dict_current["day7_dew_point"],100,"00:00",0)
+            dict_current["day7_icon"]= objWeather.GetIconFile(dict_day7["weather"][0]["icon"])       
 
-        print(dict_current)
-        #     today_icon += '.png'
-        #     icon_path += today_icon
-        #     print(icon_path)
-        #     #icon = PhotoImage(file='weather_icons/04n.png')  
-        #     GUI.icon_label.configure(image=icon)
-        #     GUI.icon_label.photo = icon  
+        # print(dict_current)
+        return dict_current
     def GetWeatherDesc(self, weather_id):
         df=pd.read_csv("weather_conditions.csv")
         df_new=df.query('ID=='+str(weather_id))
@@ -217,29 +341,77 @@ class Weather():
             df=pd.read_csv("weather_conditions.csv")
             df_new=df.query('ID=='+str(weather_id))
             Activity=''
+            dict_activity={}
             now = datetime.datetime.now()
             current_time = now.strftime("%H:%M")
             for item in df_new["Jogging"].values:
+                Activity={"Jogging":1}
                 if CurDayFlag==1:
                     if current_time < sunset or \
                         str((datetime.datetime.strptime(current_time,"%H:%M")- \
-                        datetime.datetime.strptime(sunset,"%H:%M")).seconds) < "14400"  :
-                            Activity = 'Nice Weather for Jogging and Walking '
+                        datetime.datetime.strptime(sunset,"%H:%M")).seconds) \
+                            < str(self.activity_min_jogging_offset_seconds_threshold)  :
+                            #Activity = 'Nice Weather for Jogging and Walking '
+                            Activity={"Jogging":1}
                     else:
-                        Activity = 'Stay at home'
+                        #Activity = 'Stay at home'
+                        Activity={"Jogging":0}
                 else:
-                    Activity = 'Nice Weather for Jogging and Walking '
+                    #Activity = 'Nice Weather for Jogging and Walking '
+                    Activity={"jogging":1}
+                dict_activity.update(Activity)
                     
             for item in df_new["Drone"].values:
+                Activity={"Drone":0}
                 if item == 'YES' and min_temp > self.activity_drone_min_temp_threshold and \
                     wind_speed < self.activity_drone_wind_speed_threshold and \
                     visibility > self.activity_drone_visibility_threshold :
                     if CurDayFlag == 1 and  sunset > current_time:
-                        Activity += ''           
+                        #Activity += ''
+                        Activity={"Drone":0}
                     else:
-                        Activity += ' Flying Drone'           
-        print((datetime.datetime.strptime(current_time,"%H:%M")-datetime.datetime.strptime(sunset,"%H:%M")).seconds)         
-        return str(Activity)
+                        Activity={"Drone":1}
+                dict_activity.update(Activity)                        
+                        
+            for item in df_new["Ski"].values:
+                Activity={"Ski":0}
+                if item == 'YES':
+                    if CurDayFlag == 1 and  sunset > current_time:
+                        Activity={"Ski":0}
+                    else:
+                        Activity={"Ski":1}
+                dict_activity.update(Activity)                        
+
+            for item in df_new["Kayaking"].values:
+                Activity={"Kayaking":0}
+                if item == 'YES' and wind_speed < self.activity_kayak_wind_speed_threshold and min_temp >= self.activity_kayak_min_temp_threshold:
+                    if CurDayFlag == 1 and  sunset > current_time:
+                        Activity={"Kayaking":0}
+                    else:
+                        Activity={"Kayaking":1}
+                dict_activity.update(Activity)      
+
+            for item in df_new["BBQ"].values:
+                Activity={"BBQ":0}
+                if item == 'YES' and min_temp >= self.activity_BBQ_min_temp_threshold:
+                    if CurDayFlag == 1 and  sunset > current_time:
+                        Activity={"BBQ":0}
+                    else:
+                        Activity={"BBQ":1}
+                dict_activity.update(Activity) 
+                
+                        
+            for item in df_new["Biking"].values:
+                Activity={"Biking":0}
+                if item == 'YES' and min_temp >= self.activity_BIKE_min_temp_threshold:
+                    if CurDayFlag == 1 and  sunset > current_time:
+                        Activity={"Biking":0}
+                    else:
+                        Activity={"Biking":1}
+                dict_activity.update(Activity)                      
+        #print(dict_activity)                       
+        #print((datetime.datetime.strptime(current_time,"%H:%M")-datetime.datetime.strptime(sunset,"%H:%M")).seconds)         
+        return dict_activity
     
 a=Weather()
 a.WeatherInf()

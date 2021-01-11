@@ -187,7 +187,7 @@ class GUI(Frame):
             today_icon += '.png'
             icon_path += today_icon
             print(icon_path)
-            #icon = PhotoImage(file='weather_icons/04n.png')  
+            icon = PhotoImage(file='weather_icons/drone.gif')  
             GUI.icon_label.configure(image=icon)
             GUI.icon_label.photo = icon            
         else:
