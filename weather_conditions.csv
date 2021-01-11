@@ -1,56 +1,56 @@
-ID,Main,Description,Icon,Drone,Ski,Jogging,Kayaking ,BBQ
-200,Thunderstorm,Thunderstorm with light rain,11d,NO,NO,NO,NO,NO
-201,Thunderstorm,Thunderstorm with rain,11d,NO,NO,NO,NO,NO
-202,Thunderstorm,Thunderstorm with heavy rain,11d,NO,NO,NO,NO,NO
-210,Thunderstorm,Light thunderstorm,11d,NO,NO,NO,NO,NO
-211,Thunderstorm,Thunderstorm,11d,NO,NO,NO,NO,NO
-212,Thunderstorm,Heavy thunderstorm,11d,NO,NO,NO,NO,NO
-221,Thunderstorm,Ragged thunderstorm,11d,NO,NO,NO,NO,NO
-230,Thunderstorm,Thunderstorm with light drizzle,11d,NO,NO,NO,NO,NO
-231,Thunderstorm,Thunderstorm with drizzle,11d,NO,NO,NO,NO,NO
-232,Thunderstorm,Thunderstorm with heavy drizzle,11d,NO,NO,NO,NO,NO
-300,Drizzle,Light intensity drizzle,09d,NO,NO,YES,NO,YES
-301,Drizzle,Drizzle,09d,NO,NO,YES,NO,YES
-302,Drizzle,Heavy intensity drizzle,09d,NO,NO,YES,NO,NO
-310,Drizzle,Light intensity drizzle rain,09d,NO,NO,YES,NO,NO
-311,Drizzle,Drizzle rain,09d,NO,NO,YES,NO,NO
-312,Drizzle,Heavy intensity drizzle rain,09d,NO,NO,YES,NO,NO
-313,Drizzle,Shower rain and drizzle,09d,NO,NO,YES,NO,NO
-314,Drizzle,Heavy shower rain and drizzle,09d,NO,NO,YES,NO,NO
-321,Drizzle,Shower drizzle,09d,NO,NO,YES,NO,NO
-500,Rain,Light rain,10d,NO,NO,YES,NO,NO
-501,Rain,Moderate rain,10d,NO,NO,YES,NO,NO
-502,Rain,Heavy intensity rain,10d,NO,NO,YES,NO,NO
-503,Rain,Very heavy rain,10d,NO,NO,YES,NO,NO
-504,Rain,Extreme rain,10d,NO,NO,YES,NO,NO
-511,Rain,Freezing rain,13d,NO,NO,YES,NO,NO
-520,Rain,Light intensity shower rain,09d,NO,NO,YES,NO,NO
-521,Rain,Shower rain,09d,NO,NO,YES,NO,NO
-522,Rain,Heavy intensity shower rain,09d,NO,NO,YES,NO,NO
-531,Rain,Ragged shower rain,09d,NO,NO,YES,NO,NO
-600,Snow,Light snow,13d,NO,YES,YES,NO,NO
-601,Snow,Snow,13d,NO,NO,YES,NO,NO
-602,Snow,Heavy snow,13d,NO,NO,YES,NO,NO
-611,Snow,Sleet,13d,NO,NO,NO,NO,NO
-612,Snow,Light shower sleet,13d,NO,NO,NO,NO,NO
-613,Snow,Shower sleet,13d,NO,NO,NO,NO,NO
-615,Snow,Light rain and snow,13d,NO,NO,YES,NO,NO
-616,Snow,Rain and snow,13d,NO,NO,YES,NO,NO
-620,Snow,Light shower snow,13d,NO,YES,YES,NO,NO
-621,Snow,Shower snow,13d,NO,NO,YES,NO,NO
-622,Snow,Heavy shower snow,13d,NO,NO,NO,NO,NO
-701,Mist,Mist,50d,NO,YES,YES,NO,NO
-711,Smoke,Smoke,50d,NO,NO,NO,NO,NO
-721,Haze,Haze,50d,NO,NO,NO,NO,NO
-731,Dust,Sand-Dust whirls,50d,NO,NO,NO,NO,NO
-741,Fog,Fog,50d,NO,NO,YES,NO,YES
-751,Sand,Sand,50d,NO,NO,NO,NO,NO
-761,Dust,Dust,50d,No,No,No,No,NO
-762,Ash,Volcanic ash,50d,NO,NO,NO,NO,NO
-771,Squall,Squalls,50d,NO,NO,NO,NO,NO
-781,Tornado,Tornado,50d,NO,NO,NO,NO,NO
-800,Clear,Clear sky,01d,YES,YES,YES,YES,YES
-801,Clouds,few clouds: 11-25%,02d,YES,YES,YES,YES,YES
-802,Clouds,Scattered clouds: 25-50%,03d,YES,YES,YES,YES,YES
-803,Clouds,Broken clouds: 51-84%,04d,NO,YES,YES,YES,YES
-804,Clouds,Overcast clouds: 85-100%,04d,NO,YES,YES,YES,YES
+ID,Main,Description,Icon,Drone,Ski,Jogging,Kayaking ,BBQ,Biking
+200,Thunderstorm,Thunderstorm with light rain,11d,NO,NO,NO,NO,NO,NO
+201,Thunderstorm,Thunderstorm with rain,11d,NO,NO,NO,NO,NO,NO
+202,Thunderstorm,Thunderstorm with heavy rain,11d,NO,NO,NO,NO,NO,NO
+210,Thunderstorm,Light thunderstorm,11d,NO,NO,NO,NO,NO,NO
+211,Thunderstorm,Thunderstorm,11d,NO,NO,NO,NO,NO,NO
+212,Thunderstorm,Heavy thunderstorm,11d,NO,NO,NO,NO,NO,NO
+221,Thunderstorm,Ragged thunderstorm,11d,NO,NO,NO,NO,NO,NO
+230,Thunderstorm,Thunderstorm with light drizzle,11d,NO,NO,NO,NO,NO,NO
+231,Thunderstorm,Thunderstorm with drizzle,11d,NO,NO,NO,NO,NO,NO
+232,Thunderstorm,Thunderstorm with heavy drizzle,11d,NO,NO,NO,NO,NO,NO
+300,Drizzle,Light intensity drizzle,09d,NO,NO,YES,NO,YES,YES
+301,Drizzle,Drizzle,09d,NO,NO,YES,NO,YES,YES
+302,Drizzle,Heavy intensity drizzle,09d,NO,NO,YES,NO,NO,NO
+310,Drizzle,Light intensity drizzle rain,09d,NO,NO,YES,NO,NO,YES
+311,Drizzle,Drizzle rain,09d,NO,NO,YES,NO,NO,YES
+312,Drizzle,Heavy intensity drizzle rain,09d,NO,NO,YES,NO,NO,NO
+313,Drizzle,Shower rain and drizzle,09d,NO,NO,YES,NO,NO,NO
+314,Drizzle,Heavy shower rain and drizzle,09d,NO,NO,NO,NO,NO,NO
+321,Drizzle,Shower drizzle,09d,NO,NO,YES,NO,NO,YES
+500,Rain,Light rain,10d,NO,NO,YES,NO,NO,YES
+501,Rain,Moderate rain,10d,NO,NO,YES,NO,NO,YES
+502,Rain,Heavy intensity rain,10d,NO,NO,NO,NO,NO,NO
+503,Rain,Very heavy rain,10d,NO,NO,NO,NO,NO,NO
+504,Rain,Extreme rain,10d,NO,NO,NO,NO,NO,NO
+511,Rain,Freezing rain,13d,NO,NO,NO,NO,NO,YES
+520,Rain,Light intensity shower rain,09d,NO,NO,YES,NO,NO,YES
+521,Rain,Shower rain,09d,NO,NO,YES,NO,NO,YES
+522,Rain,Heavy intensity shower rain,09d,NO,NO,NO,NO,NO,NO
+531,Rain,Ragged shower rain,09d,NO,NO,NO,NO,NO,NO
+600,Snow,Light snow,13d,NO,YES,YES,NO,NO,YES
+601,Snow,Snow,13d,NO,NO,YES,NO,NO,NO
+602,Snow,Heavy snow,13d,NO,NO,NO,NO,NO,NO
+611,Snow,Sleet,13d,NO,NO,NO,NO,NO,NO
+612,Snow,Light shower sleet,13d,NO,NO,NO,NO,NO,NO
+613,Snow,Shower sleet,13d,NO,NO,NO,NO,NO,NO
+615,Snow,Light rain and snow,13d,NO,NO,YES,NO,NO,YES
+616,Snow,Rain and snow,13d,NO,NO,NO,NO,NO,NO
+620,Snow,Light shower snow,13d,NO,YES,YES,NO,NO,YES
+621,Snow,Shower snow,13d,NO,NO,YES,NO,NO,NO
+622,Snow,Heavy shower snow,13d,NO,NO,NO,NO,NO,NO
+701,Mist,Mist,50d,NO,YES,YES,NO,NO,YES
+711,Smoke,Smoke,50d,NO,NO,NO,NO,NO,NO
+721,Haze,Haze,50d,NO,NO,NO,NO,NO,NO
+731,Dust,Sand-Dust whirls,50d,NO,NO,NO,NO,NO,NO
+741,Fog,Fog,50d,NO,NO,YES,NO,YES,YES
+751,Sand,Sand,50d,NO,NO,NO,NO,NO,NO
+761,Dust,Dust,50d,No,No,No,No,NO,No
+762,Ash,Volcanic ash,50d,NO,NO,NO,NO,NO,NO
+771,Squall,Squalls,50d,NO,NO,NO,NO,NO,NO
+781,Tornado,Tornado,50d,NO,NO,NO,NO,NO,NO
+800,Clear,Clear sky,01d,YES,YES,YES,YES,YES,YES
+801,Clouds,Few clouds: 11-25%,02d,YES,YES,YES,YES,YES,YES
+802,Clouds,Scattered clouds: 25-50%,03d,YES,YES,YES,YES,YES,YES
+803,Clouds,Broken clouds: 51-84%,04d,NO,YES,YES,YES,YES,YES
+804,Clouds,Overcast clouds: 85-100%,04d,NO,YES,YES,YES,YES,YES
