@@ -36,9 +36,6 @@ class News():
             url_news='https://www.sciencedaily.com/rss/top/technology.xml'
         return url_news
     
-
-#url_radiofarda='https://www.radiofarda.com/api/zrttpoeuoupo'
-#url_cbc_world='https://www.cbc.ca/cmlink/rss-world'
     
     def GetTopNews(self,NewsType,NumberofRows):
         objNews = News()
@@ -57,8 +54,8 @@ class News():
             #    title_new += title[:50] + '-\n' + title[50:]
             
             title_new_list.append(title_new)       
-        print(title_new_list)
+        # print(title_new_list)
         return title_new_list
     
-a=News()
-a.GetTopNews('TE',5)
+# a=News()
+# a.GetTopNews('TE',5)
