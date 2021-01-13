@@ -42,19 +42,22 @@ class News():
         url = objNews.GetNewsUrl(NewsType)
         dict_news = feedparser.parse(url)
         #
-        j=5
+        j=self.number_of_rows_defult
         title_new_list = []
-        if len(dict_news)<5:
+        title_news={} 
+        if len(dict_news)<j:
             j=len(dict_news)
             
         for i in range(0, j):
             title = dict_news['entries'][i]["title"]
-            title_new = title
+            title_news[i] = title
             #if(len(title) >= 50):
             #    title_new += title[:50] + '-\n' + title[50:]
-            
-            title_new_list.append(title_new)       
-        # print(title_new_list)
+            title_name = "title{i}".format(i=i)
+            print(title_name)
+            title_new_list.append(title_news[i])       
+        with open('sample_module_output/news.json', 'w' ,encoding='utf-8' ) as fp:
+            json.dump(title_new_list, fp)
         return title_new_list
     
 # a=News()

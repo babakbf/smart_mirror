@@ -70,7 +70,8 @@ class Calendar():
                 i=i+1               
         if event_delta==5:
             GUI.calendar_label1.configure(text="No upcoming events!")
-        
+        with open('sample_module_output/calendar.json', 'w' ,encoding='utf-8' ) as fp:
+            json.dump(event_list, fp)      
         return event_list
        
 # a=Calendar() 

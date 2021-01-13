@@ -12,6 +12,7 @@ import os.path
 import feedparser
 import requests, json 
 import pandas as pd
+import json
 
 
 class Weather():
@@ -311,6 +312,8 @@ class Weather():
             dict_current["day7_icon"]= objWeather.GetIconFile(dict_day7["weather"][0]["icon"])       
 
         # print(dict_current)
+        with open('sample_module_output/weather.json', 'w' ,encoding='utf-8' ) as fp:
+            json.dump(dict_current, fp)
         return dict_current
     def GetWeatherDesc(self, weather_id):
         df=pd.read_csv("weather_conditions.csv")
