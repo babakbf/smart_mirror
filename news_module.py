@@ -15,8 +15,8 @@ class News():
         self.number_of_rows_defult=5
 
     def GetNewsUrl(self,NewsType):
-        # News Type T: Technology Science BI:BBC Persian Iran  R: Radio Farda CW: 
-        #    CBC World  CC: CBC CANADA   B: BBC Perisan
+        #  News Type T: Technology Science BI:BBC Persian Iran  R: Radio Farda CW: 
+        #  CBC World  CC: CBC CANADA   B: BBC Perisan
         
         if NewsType=='BI': # BBC Persian Iran
             url_news='http://www.bbc.co.uk/persian/iran/full.xml'
@@ -62,6 +62,3 @@ class News():
         with open('sample_module_output/news.json', 'w' ,encoding='utf-8' ) as fp:
             json.dump(title_news_list, fp)
         return title_news_list
-    
-# a=News()
-# a.GetTopNews('TE',5)

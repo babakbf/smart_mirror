@@ -311,7 +311,6 @@ class Weather():
                             dict_current["day7_dew_point"],100,"00:00",0)
             dict_current["day7_icon"]= objWeather.GetIconFile(dict_day7["weather"][0]["icon"])       
 
-        # print(dict_current)
         with open('sample_module_output/weather.json', 'w' ,encoding='utf-8' ) as fp:
             json.dump(dict_current, fp)
         return dict_current

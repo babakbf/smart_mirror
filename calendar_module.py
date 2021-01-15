@@ -21,7 +21,7 @@ class Calendar():
         self.next_upcoming_weeks=2
         self.CalendarUrl = ['https://www.googleapis.com/auth/calendar.readonly']
 
-    def GetCalendarEvents(self):
+    def GetCalendarEvents(self,eventcount):
         creds = None
         if os.path.exists('token.pickle'):
             with open('token.pickle', 'rb') as token:
@@ -51,7 +51,10 @@ class Calendar():
         event_list = {}
         if not events:
             print('No upcoming events found.')
+        i = 0 
         for event in events:
+            if i >  eventcount :
+                break
             event_str = ''
             start = event['start'].get('dateTime', event['start'].get('date'))
             start = start[0:10] +" "+ start[11:16] # Remove unnecessary characters at end of string
@@ -60,17 +63,17 @@ class Calendar():
             event_date = start[year + 1:year + 6]
             summary = event['summary'].encode('ascii', 'ignore').decode('ascii') # Remove emojis
             event_str += summary + ' | ' + start_day
-            event_list.append(event_str)
+            event_name = "event{i}".format(i=i)
+            i = i + 1
+            event_list[event_name] = event_str
 
         # Update calendar text
-        event_delta= 5 - len(event_list)
-        i=0
-        if event_delta > 0:
-            while event_delta>=0:
-                event[event_delta] = "event{i}".format(i=event_delta)
-                eventItem[event_delta] = ""
-                event_list.append("")    
-                event_delta = event_delta -1               
+        j = eventcount 
+        while j - i + 1 > 0:
+            event_name = "event{i}".format(i=j)
+            event_list[event_name] = ""
+            j= j - 1
+        
         with open('sample_module_output/calendar.json', 'w' ,encoding='utf-8' ) as fp:
             json.dump(event_list, fp)      
         return event_list
