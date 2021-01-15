@@ -43,7 +43,7 @@ class News():
         dict_news = feedparser.parse(url)
         #
         j=self.number_of_rows_defult
-        title_news_list = {}
+        title_new_list = []
         title_news={} 
         if len(dict_news)<j:
             j=len(dict_news)
@@ -54,14 +54,11 @@ class News():
             #if(len(title) >= 50):
             #    title_new += title[:50] + '-\n' + title[50:]
             title_name = "title{i}".format(i=i)
-            
-            title_news_list[title_name]=title_news[i]
-            print(title_news_list)
-            #title_news_list.update(Activity)
-            #title_new_list.append(title_news)       
+            print(title_name)
+            title_new_list.append(title_news[i])       
         with open('sample_module_output/news.json', 'w' ,encoding='utf-8' ) as fp:
-            json.dump(title_news_list, fp)
-        return title_news_list
+            json.dump(title_new_list, fp)
+        return title_new_list
     
 # a=News()
 # a.GetTopNews('TE',5)

@@ -4,7 +4,6 @@ Created on Tue Jan  12 06:27:28 2021
 
 @author: Babak Boroujerdi Far
 """
-import json
 import os.path
 import pickle
 import time
@@ -48,7 +47,7 @@ class Calendar():
                                               maxResults=7, singleEvents=True,
                                               orderBy='startTime').execute()
         events = events_result.get('items', [])
-        event_list = {}
+        event_list = []
         if not events:
             print('No upcoming events found.')
         for event in events:
@@ -66,11 +65,11 @@ class Calendar():
         event_delta= 5 - len(event_list)
         i=0
         if event_delta > 0:
-            while event_delta>=0:
-                event[event_delta] = "event{i}".format(i=event_delta)
-                eventItem[event_delta] = ""
+            while i < event_delta+1:
                 event_list.append("")    
-                event_delta = event_delta -1               
+                i=i+1               
+        if event_delta==5:
+            GUI.calendar_label1.configure(text="No upcoming events!")
         with open('sample_module_output/calendar.json', 'w' ,encoding='utf-8' ) as fp:
             json.dump(event_list, fp)      
         return event_list
