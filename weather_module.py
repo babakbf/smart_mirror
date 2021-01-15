@@ -339,11 +339,11 @@ class Weather():
             min_temp <= self.activity_main_min_temp_threshold :
             activity_condition= False        
         
+        dict_activity={}
         if activity_condition == True:
             df=pd.read_csv("weather_conditions.csv")
             df_new=df.query('ID=='+str(weather_id))
             Activity=''
-            dict_activity={}
             now = datetime.datetime.now()
             current_time = now.strftime("%H:%M")
             for item in df_new["Jogging"].values:
